@@ -1,0 +1,150 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  ScrAiChat:
+    Properties:
+      Fill: =RGBA(238, 244, 252, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Children:
+      - RctHdrChat:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(15, 61, 115, 1)
+            Height: =72
+            Width: =Parent.Width
+      - RctInputBar:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =60
+            Width: =Parent.Width
+            Y: =Parent.Height - 60
+      - RctSendBtn:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =40
+            OnSelect: |-
+              =If(Len(TxtChatInput.Text)>0,Collect(colChat,{role:"user",msg:TxtChatInput.Text});Collect(colChat,{role:"bot",msg:If("reserva" in Lower(TxtChatInput.Text),"Para reservar material, ve a Reservas desde el Dashboard y presiona +. Hay " & CountRows(Reservas) & " reservas registradas.","préstamo" in Lower(TxtChatInput.Text) || "prestamo" in Lower(TxtChatInput.Text),"Préstamos activos: " & CountIf(Prestamos,Estado="Activo") & ". Ve a Préstamos para más detalles.","cocina" in Lower(TxtChatInput.Text),"Inventario cocina: " & CountRows(Cocina) & " elementos registrados. Ve a la sección Cocina.","recurso" in Lower(TxtChatInput.Text) || "juego" in Lower(TxtChatInput.Text),"Recursos disponibles: " & CountRows(Recursos) & ". Consulta la sección Recursos.","hola" in Lower(TxtChatInput.Text) || "buenos" in Lower(TxtChatInput.Text),"¡Hola! Soy tu asistente del laboratorio de idiomas EAFIT. Pregúntame sobre reservas, préstamos o inventario.","ayuda" in Lower(TxtChatInput.Text),"Puedo ayudarte con:" & Char(10) & "• Consultas de inventario (cocina, recursos)" & Char(10) & "• Estado de préstamos activos" & Char(10) & "• Información de reservas" & Char(10) & "• Disponibilidad de materiales","vencido" in Lower(TxtChatInput.Text) || "retraso" in Lower(TxtChatInput.Text),"Préstamos vencidos: " & CountIf(Prestamos,Estado="Activo",Not(IsBlank(FechaFin)),FechaFin<Text(Today(),"yyyy-mm-dd")) & ". Revisa la sección Alertas del Dashboard.","disponible" in Lower(TxtChatInput.Text) || "cuantos" in Lower(TxtChatInput.Text),"Cocina: " & CountRows(Cocina) & " artículos | Recursos: " & CountRows(Recursos) & " juegos | Activos: " & CountIf(Prestamos,Estado="Activo"),"No tengo información específica sobre eso. Pregúntame sobre reservas, préstamos, cocina o recursos del laboratorio.")});Reset(TxtChatInput))
+            Width: =40
+            X: =Parent.Width - 56
+            Y: =Parent.Height - 50
+      - LblSendIcon:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: |-
+              =If(Len(TxtChatInput.Text)>0,Collect(colChat,{role:"user",msg:TxtChatInput.Text});Collect(colChat,{role:"bot",msg:If("reserva" in Lower(TxtChatInput.Text),"Para reservar material, ve a Reservas desde el Dashboard y presiona +. Hay " & CountRows(Reservas) & " reservas registradas.","préstamo" in Lower(TxtChatInput.Text) || "prestamo" in Lower(TxtChatInput.Text),"Préstamos activos: " & CountIf(Prestamos,Estado="Activo") & ". Ve a Préstamos para más detalles.","cocina" in Lower(TxtChatInput.Text),"Inventario cocina: " & CountRows(Cocina) & " elementos registrados. Ve a la sección Cocina.","recurso" in Lower(TxtChatInput.Text) || "juego" in Lower(TxtChatInput.Text),"Recursos disponibles: " & CountRows(Recursos) & ". Consulta la sección Recursos.","hola" in Lower(TxtChatInput.Text) || "buenos" in Lower(TxtChatInput.Text),"¡Hola! Soy tu asistente del laboratorio de idiomas EAFIT. Pregúntame sobre reservas, préstamos o inventario.","ayuda" in Lower(TxtChatInput.Text),"Puedo ayudarte con:" & Char(10) & "• Consultas de inventario (cocina, recursos)" & Char(10) & "• Estado de préstamos activos" & Char(10) & "• Información de reservas" & Char(10) & "• Disponibilidad de materiales","vencido" in Lower(TxtChatInput.Text) || "retraso" in Lower(TxtChatInput.Text),"Préstamos vencidos: " & CountIf(Prestamos,Estado="Activo",Not(IsBlank(FechaFin)),FechaFin<Text(Today(),"yyyy-mm-dd")) & ". Revisa la sección Alertas del Dashboard.","disponible" in Lower(TxtChatInput.Text) || "cuantos" in Lower(TxtChatInput.Text),"Cocina: " & CountRows(Cocina) & " artículos | Recursos: " & CountRows(Recursos) & " juegos | Activos: " & CountIf(Prestamos,Estado="Activo"),"No tengo información específica sobre eso. Pregúntame sobre reservas, préstamos, cocina o recursos del laboratorio.")});Reset(TxtChatInput))
+            Size: =16
+            Text: ="➤"
+            Width: =40
+            X: =Parent.Width - 56
+            Y: =Parent.Height - 50
+      - TxtChatInput:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Color: =RGBA(70, 68, 64, 1)
+            Default: =""
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 40%)
+            DisabledColor: =ColorFade(Self.Color, 40%)
+            DisabledFill: =Self.Fill
+            Fill: =RGBA(243, 244, 246, 1)
+            FocusedBorderThickness: =3
+            Font: =Font.'Open Sans'
+            Height: =36
+            HintText: ="Escribe tu pregunta..."
+            HoverBorderColor: =Self.Color
+            HoverColor: =Self.Color
+            HoverFill: =Self.Fill
+            PaddingLeft: =14
+            PaddingRight: =14
+            Size: =14
+            Width: =Parent.Width - 76
+            X: =12
+            Y: =Parent.Height - 48
+      - LblTitleChat:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =72
+            Size: =17
+            Text: ="Asistente IA  ·  Laboratorio"
+            Width: =Parent.Width - 68
+            X: =58
+      - RctBackChat:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(46, 123, 196, 1)
+            Height: =40
+            OnSelect: =Navigate(Screen1)
+            Width: =44
+            X: =4
+            Y: =16
+      - LblBackChat:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(Screen1)
+            Size: =22
+            Text: ="←"
+            Width: =44
+            X: =4
+            Y: =16
+      - RctAccentChat:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =3
+            Width: =Parent.Width
+            Y: =72
+      - RctChatBg:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - 135
+            Width: =Parent.Width
+            Y: =75
+      - LblChatHistory:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =Parent.Height - 151
+            PaddingBottom: =8
+            PaddingLeft: =8
+            PaddingRight: =8
+            Text: |-
+              =Concat(colChat,If(role="bot","🤖  " & msg,"👤  " & msg) & Char(10) & "───────────────" & Char(10),"")
+            VerticalAlign: =VerticalAlign.Bottom
+            Width: =Parent.Width - 24
+            X: =12
+            Y: =83

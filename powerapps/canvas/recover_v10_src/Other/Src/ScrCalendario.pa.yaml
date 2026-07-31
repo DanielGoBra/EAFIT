@@ -1,0 +1,537 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  ScrCalendario:
+    Properties:
+      Fill: =RGBA(238, 244, 252, 1)
+      LoadingSpinnerColor: =RGBA(0, 51, 102, 1)
+      OnVisible: =Set(gCalFecha,Text(DateAdd(Today(),-Weekday(Today())+2,Days),"yyyy-mm-dd"))
+    Children:
+      - RctHdrCal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(15, 61, 115, 1)
+            Height: =72
+            Width: =Parent.Width
+      - LblTitleCal:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =72
+            Size: =17
+            Text: ="Calendario de Reservas"
+            Width: =Parent.Width-68
+            X: =58
+      - RctBackCal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(46, 123, 196, 1)
+            Height: =40
+            OnSelect: =Navigate(ScrReservas,ScreenTransition.Slide)
+            Width: =44
+            X: =4
+            Y: =16
+      - LblBackCal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(ScrReservas,ScreenTransition.Slide)
+            Size: =22
+            Text: ="←"
+            Width: =44
+            X: =4
+            Y: =16
+      - RctAccentCal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =3
+            Width: =Parent.Width
+            Y: =72
+      - RctNavNextCal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(229, 231, 235, 1)
+            Height: =40
+            OnSelect: =Set(gCalFecha,Text(DateAdd(DateValue(gCalFecha),7,Days),"yyyy-mm-dd"))
+            Width: =80
+            X: =Parent.Width - 100
+            Y: =87
+      - LblNavNextCal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gCalFecha,Text(DateAdd(DateValue(gCalFecha),7,Days),"yyyy-mm-dd"))
+            Size: =12
+            Text: ="Sig. →"
+            Width: =80
+            X: =Parent.Width - 100
+            Y: =87
+      - RctNavPrevCal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(229, 231, 235, 1)
+            Height: =40
+            OnSelect: =Set(gCalFecha,Text(DateAdd(DateValue(gCalFecha),-7,Days),"yyyy-mm-dd"))
+            Width: =80
+            X: =20
+            Y: =87
+      - LblNavPrevCal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gCalFecha,Text(DateAdd(DateValue(gCalFecha),-7,Days),"yyyy-mm-dd"))
+            Size: =12
+            Text: ="← Ant."
+            Width: =80
+            X: =20
+            Y: =87
+      - LblWeekCal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Size: =14
+            Text: ="Semana del " & Text(DateValue(gCalFecha),"dd mmm yyyy")
+            Width: =Parent.Width - 216
+            X: =108
+            Y: =87
+      - LblDay1Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =RGBA(220, 232, 248, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            Size: =11
+            Text: ="Mar"
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 1 * ((Parent.Width - 56) / 7 + 4)
+            Y: =143
+      - LblDay2Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =RGBA(220, 232, 248, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            Size: =11
+            Text: ="Mié"
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 2 * ((Parent.Width - 56) / 7 + 4)
+            Y: =143
+      - LblDay3Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =RGBA(220, 232, 248, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            Size: =11
+            Text: ="Jue"
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 3 * ((Parent.Width - 56) / 7 + 4)
+            Y: =143
+      - LblDay4Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =RGBA(220, 232, 248, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            Size: =11
+            Text: ="Vie"
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 4 * ((Parent.Width - 56) / 7 + 4)
+            Y: =143
+      - LblDay5Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =RGBA(220, 232, 248, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            Size: =11
+            Text: ="Sáb"
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 5 * ((Parent.Width - 56) / 7 + 4)
+            Y: =143
+      - LblDay6Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =RGBA(220, 232, 248, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            Size: =11
+            Text: ="Dom"
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 6 * ((Parent.Width - 56) / 7 + 4)
+            Y: =143
+      - LblDay0Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Fill: =RGBA(220, 232, 248, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =28
+            Size: =11
+            Text: ="Lun"
+            Width: =(Parent.Width - 56) / 7
+            X: =20
+            Y: =143
+      - RctCol1Cal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - ${CAL_Y + 28 + 20}
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 1 * ((Parent.Width - 56) / 7 + 4)
+            Y: =171
+      - RctCol2Cal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - ${CAL_Y + 28 + 20}
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 2 * ((Parent.Width - 56) / 7 + 4)
+            Y: =171
+      - RctCol3Cal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - ${CAL_Y + 28 + 20}
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 3 * ((Parent.Width - 56) / 7 + 4)
+            Y: =171
+      - RctCol4Cal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - ${CAL_Y + 28 + 20}
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 4 * ((Parent.Width - 56) / 7 + 4)
+            Y: =171
+      - RctCol5Cal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - ${CAL_Y + 28 + 20}
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 5 * ((Parent.Width - 56) / 7 + 4)
+            Y: =171
+      - RctCol6Cal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - ${CAL_Y + 28 + 20}
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 6 * ((Parent.Width - 56) / 7 + 4)
+            Y: =171
+      - RctCol0Cal:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =Parent.Height - ${CAL_Y + 28 + 20}
+            Width: =(Parent.Width - 56) / 7
+            X: =20
+            Y: =171
+      - LblDate1Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            Size: =14
+            Text: =Text(DateAdd(DateValue(gCalFecha),1,Days),"dd")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 1 * ((Parent.Width - 56) / 7 + 4)
+            Y: =173
+      - LblDate2Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            Size: =14
+            Text: =Text(DateAdd(DateValue(gCalFecha),2,Days),"dd")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 2 * ((Parent.Width - 56) / 7 + 4)
+            Y: =173
+      - LblDate3Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            Size: =14
+            Text: =Text(DateAdd(DateValue(gCalFecha),3,Days),"dd")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 3 * ((Parent.Width - 56) / 7 + 4)
+            Y: =173
+      - LblDate4Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            Size: =14
+            Text: =Text(DateAdd(DateValue(gCalFecha),4,Days),"dd")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 4 * ((Parent.Width - 56) / 7 + 4)
+            Y: =173
+      - LblDate5Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            Size: =14
+            Text: =Text(DateAdd(DateValue(gCalFecha),5,Days),"dd")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 5 * ((Parent.Width - 56) / 7 + 4)
+            Y: =173
+      - LblDate6Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            Size: =14
+            Text: =Text(DateAdd(DateValue(gCalFecha),6,Days),"dd")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 6 * ((Parent.Width - 56) / 7 + 4)
+            Y: =173
+      - LblDate0Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =22
+            Size: =14
+            Text: =Text(DateAdd(DateValue(gCalFecha),0,Days),"dd")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20
+            Y: =173
+      - LblCnt1Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =10
+            Text: =If(CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),1,Days),"yyyy-mm-dd"))>0,CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),1,Days),"yyyy-mm-dd")) & " res.","")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 1 * ((Parent.Width - 56) / 7 + 4)
+            Y: =195
+      - LblCnt2Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =10
+            Text: =If(CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),2,Days),"yyyy-mm-dd"))>0,CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),2,Days),"yyyy-mm-dd")) & " res.","")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 2 * ((Parent.Width - 56) / 7 + 4)
+            Y: =195
+      - LblCnt3Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =10
+            Text: =If(CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),3,Days),"yyyy-mm-dd"))>0,CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),3,Days),"yyyy-mm-dd")) & " res.","")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 3 * ((Parent.Width - 56) / 7 + 4)
+            Y: =195
+      - LblCnt4Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =10
+            Text: =If(CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),4,Days),"yyyy-mm-dd"))>0,CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),4,Days),"yyyy-mm-dd")) & " res.","")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 4 * ((Parent.Width - 56) / 7 + 4)
+            Y: =195
+      - LblCnt5Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =10
+            Text: =If(CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),5,Days),"yyyy-mm-dd"))>0,CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),5,Days),"yyyy-mm-dd")) & " res.","")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 5 * ((Parent.Width - 56) / 7 + 4)
+            Y: =195
+      - LblCnt6Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =10
+            Text: =If(CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),6,Days),"yyyy-mm-dd"))>0,CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),6,Days),"yyyy-mm-dd")) & " res.","")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20 + 6 * ((Parent.Width - 56) / 7 + 4)
+            Y: =195
+      - LblCnt0Cal:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =20
+            Size: =10
+            Text: =If(CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),0,Days),"yyyy-mm-dd"))>0,CountIf(Reservas,Left(FechaInicio,10)=Text(DateAdd(DateValue(gCalFecha),0,Days),"yyyy-mm-dd")) & " res.","")
+            VerticalAlign: =VerticalAlign.Top
+            Width: =(Parent.Width - 56) / 7
+            X: =20
+            Y: =195

@@ -1,0 +1,42 @@
+﻿App As appinfo:
+    BackEnabled: =true
+    StartScreen: =If(EndsWith(Lower(Trim(User().Email)), "@eafit.edu.co"), Screen1, ScrLogin)
+    OnStart: |-
+        =Set(gUser,User());
+        Set(gUserEmailNorm,Lower(Trim(User().Email)));
+        ClearCollect(colUsuariosBootstrap,{Email:"dfgomezb@eafit.edu.co",Nombre:"Daniel Felipe GÃ³mez Bravo",Rol:"SuperAdmin",Activo:"TRUE"},{Email:"cnaranj8@eafit.edu.co",Nombre:"Carlos AndrÃ©s Naranjo",Rol:"Docente",Activo:"TRUE"},{Email:"amvelasqa1@eafit.edu.co",Nombre:"Angela Maria Velasquez Acosta",Rol:"Docente",Activo:"TRUE"});
+        Set(gUserNombreApp,Coalesce(LookUp(colUsuariosBootstrap,Lower(Trim(Coalesce(Email,"")))=gUserEmailNorm && (IsBlank(Activo) || Activo="TRUE" || Activo="Activo"),Nombre),User().FullName));
+        Set(gItemEdit,Blank());
+        Set(gConfirmDel,false);
+        Set(gConfirmDelInv,false);
+        Set(gEstadoEdit,"Disponible");
+        Set(gEstadoReserva,"Activa");
+        Set(gTipoPrestamo,"Bueno");
+        Set(gRolEdit,"Docente");
+        Set(gActivoUsr,"Activo");
+        Set(gReservaFechaPrefill,Blank());
+        Set(gReservaPrefillNombre,Blank());
+        Set(gReservaPrefillTipo,Blank());
+        Set(gRol,Coalesce(LookUp(colUsuariosBootstrap,Lower(Trim(Coalesce(Email,"")))=gUserEmailNorm && (IsBlank(Activo) || Activo="TRUE" || Activo="Activo"),Rol),If(gUserEmailNorm="dfgomezb@eafit.edu.co","SuperAdmin",If(EndsWith(gUserEmailNorm,"@eafit.edu.co"),"Docente","Invitado"))));
+        Set(gEsAdmin,gRol="Admin" || gRol="SuperAdmin");
+        Set(gFechaDesde,Text(DateAdd(Today(),-30,TimeUnit.Days),"yyyy-mm-dd"));
+        Set(gPeriodo,"Mes");
+        Set(gRptTab,1);
+        Set(gBloqueReserva,"LV_0600_0800");
+        Set(gFiltroReserva,"Todos");
+        Set(gFiltroPrestamo,"Todos");
+        Set(gCalFecha,Text(DateAdd(Today(),-Weekday(Today())+2,TimeUnit.Days),"yyyy-mm-dd"));
+        ClearCollect(colSelReservas,Blank());
+        ClearCollect(colChat,{role:"bot",msg:"Hola, soy tu asistente del laboratorio de idiomas EAFIT. Â¿En quÃ© puedo ayudarte?"});
+        ClearCollect(colBloques,{Codigo:"LV_0600_0800",Etiqueta:"L-V 6:00-8:00 am",HoraInicio:"06:00",HoraFin:"08:00",TipoDia:"Semana",Orden:1},{Codigo:"LV_0800_1000",Etiqueta:"L-V 8:00-10:00 am",HoraInicio:"08:00",HoraFin:"10:00",TipoDia:"Semana",Orden:2},{Codigo:"LV_1200_1400",Etiqueta:"L-V 12:00-2:00 pm",HoraInicio:"12:00",HoraFin:"14:00",TipoDia:"Semana",Orden:3},{Codigo:"LV_1600_1830",Etiqueta:"L-V 4:00-6:30 pm",HoraInicio:"16:00",HoraFin:"18:30",TipoDia:"Semana",Orden:4},{Codigo:"LV_1830_2100",Etiqueta:"L-V 6:30-9:00 pm",HoraInicio:"18:30",HoraFin:"21:00",TipoDia:"Semana",Orden:5},{Codigo:"SAB_0730_0930",Etiqueta:"SÃ¡b 7:30-9:30 am",HoraInicio:"07:30",HoraFin:"09:30",TipoDia:"Sabado",Orden:6},{Codigo:"SAB_0930_1130",Etiqueta:"SÃ¡b 9:30-11:30 am",HoraInicio:"09:30",HoraFin:"11:30",TipoDia:"Sabado",Orden:7},{Codigo:"SAB_1130_1330",Etiqueta:"SÃ¡b 11:30-1:30 pm",HoraInicio:"11:30",HoraFin:"13:30",TipoDia:"Sabado",Orden:8},{Codigo:"SAB_1330_1530",Etiqueta:"SÃ¡b 1:30-3:30 pm",HoraInicio:"13:30",HoraFin:"15:30",TipoDia:"Sabado",Orden:9});
+        Clear(colMateriales)
+    Theme: =PowerAppsTheme
+
+    Host As hostControl.DefaultHostControlVariant:
+        OnCancel: =false
+        OnEdit: =false
+        OnNew: =false
+        OnSave: =false
+        OnView: =false
+
+

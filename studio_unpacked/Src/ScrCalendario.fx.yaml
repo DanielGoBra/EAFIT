@@ -1,0 +1,592 @@
+﻿ScrCalendario As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+    OnVisible: =Set(gCalFecha,Text(DateAdd(Today(),-Weekday(Today())+2,TimeUnit.Days),"yyyy-mm-dd"));Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"));Refresh(Reservas)
+
+    RctHdrCal As rectangle.ManualInput:
+        Fill: =RGBA(15, 61, 115, 1)
+        Height: =132
+        Width: =Parent.Width
+
+    RctBackCal As rectangle.ManualInput:
+        Fill: =RGBA(46, 123, 196, 1)
+        Height: =40
+        OnSelect: =Navigate(ScrReservas,ScreenTransition.None)
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =44
+        X: =20
+        Y: =20
+
+    LblBackCal As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        OnSelect: =Navigate(ScrReservas,ScreenTransition.None)
+        Size: =20
+        Text: ="â†"
+        Width: =44
+        X: =20
+        Y: =20
+
+    LblTitleCal As label.Label:
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =36
+        Size: =22
+        Text: ="Calendario y disponibilidad"
+        Width: =Parent.Width - 96
+        X: =24
+        Y: =18
+
+    LblSubtitleCal As label.Label:
+        Color: =RGBA(220, 232, 248, 1)
+        Height: =20
+        Size: =11
+        Text: ="Revisa la ocupacion semanal y crea reservas desde la fecha seleccionada."
+        Width: =Parent.Width - 96
+        X: =24
+        Y: =58
+
+    LblSummaryCal As label.Label:
+        Color: =RGBA(220, 232, 248, 1)
+        Height: =20
+        Size: =11
+        Text: =If(Weekday(DateValue(gCalFechaDetalle),StartOfWeek.Monday)=7,"Domingo sin servicio.","Fecha activa: " & gCalFechaDetalle)
+        Width: =Parent.Width - 96
+        X: =24
+        Y: =86
+
+    RctAccentCal As rectangle.ManualInput:
+        Fill: =RGBA(247, 181, 0, 1)
+        Height: =4
+        Width: =Parent.Width
+        Y: =132
+
+    RctNavPrevCal As rectangle.ManualInput:
+        Fill: =RGBA(255, 255, 255, 0.92)
+        Height: =40
+        OnSelect: =Set(gCalFecha,Text(DateAdd(DateValue(gCalFecha),-7,TimeUnit.Days),"yyyy-mm-dd"));Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),-7,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =92
+        X: =20
+        Y: =148
+
+    LblNavPrevCal As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(26, 39, 66, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gCalFecha,Text(DateAdd(DateValue(gCalFecha),-7,TimeUnit.Days),"yyyy-mm-dd"));Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),-7,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =12
+        Text: ="Anterior"
+        Width: =92
+        X: =20
+        Y: =148
+
+    LblWeekCal As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Bold
+        Text: ="Semana del " & Text(DateValue(gCalFecha),"dd mmm yyyy")
+        Width: =Parent.Width - 248
+        X: =124
+        Y: =148
+
+    RctNavNextCal As rectangle.ManualInput:
+        Fill: =RGBA(255, 255, 255, 0.92)
+        Height: =40
+        OnSelect: =Set(gCalFecha,Text(DateAdd(DateValue(gCalFecha),7,TimeUnit.Days),"yyyy-mm-dd"));Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),7,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =92
+        X: =Parent.Width - 112
+        Y: =148
+
+    LblNavNextCal As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(26, 39, 66, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gCalFecha,Text(DateAdd(DateValue(gCalFecha),7,TimeUnit.Days),"yyyy-mm-dd"));Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),7,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =12
+        Text: ="Siguiente"
+        Width: =92
+        X: =Parent.Width - 112
+        Y: =148
+
+    RctDay0Cal As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"),RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 1))
+        Height: =72
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 7
+        X: =20
+        Y: =204
+
+    LblDay0Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(15, 61, 115, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =20
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =10
+        Text: ="Lun"
+        Width: =(Parent.Width - 56) / 7
+        X: =20
+        Y: =212
+
+    LblDate0Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =18
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"))
+        Text: =Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"dd")
+        Width: =(Parent.Width - 56) / 7
+        X: =20
+        Y: =234
+
+    LblCnt0Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        Height: =16
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =9
+        Text: =CountIf(Reservas,FechaServicio=Text(DateAdd(DateValue(gCalFecha),0,TimeUnit.Days),"yyyy-mm-dd") && Estado="Activa") & " act."
+        Width: =(Parent.Width - 56) / 7
+        X: =20
+        Y: =254
+
+    RctDay1Cal As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd"),RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 1))
+        Height: =72
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 1 * ((Parent.Width - 56) / 7 + 4)
+        Y: =204
+
+    LblDay1Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(15, 61, 115, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =20
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =10
+        Text: ="Mar"
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 1 * ((Parent.Width - 56) / 7 + 4)
+        Y: =212
+
+    LblDate1Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =18
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd"))
+        Text: =Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"dd")
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 1 * ((Parent.Width - 56) / 7 + 4)
+        Y: =234
+
+    LblCnt1Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        Height: =16
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =9
+        Text: =CountIf(Reservas,FechaServicio=Text(DateAdd(DateValue(gCalFecha),1,TimeUnit.Days),"yyyy-mm-dd") && Estado="Activa") & " act."
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 1 * ((Parent.Width - 56) / 7 + 4)
+        Y: =254
+
+    RctDay2Cal As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd"),RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 1))
+        Height: =72
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 2 * ((Parent.Width - 56) / 7 + 4)
+        Y: =204
+
+    LblDay2Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(15, 61, 115, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =20
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =10
+        Text: ="Mie"
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 2 * ((Parent.Width - 56) / 7 + 4)
+        Y: =212
+
+    LblDate2Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =18
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd"))
+        Text: =Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"dd")
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 2 * ((Parent.Width - 56) / 7 + 4)
+        Y: =234
+
+    LblCnt2Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        Height: =16
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =9
+        Text: =CountIf(Reservas,FechaServicio=Text(DateAdd(DateValue(gCalFecha),2,TimeUnit.Days),"yyyy-mm-dd") && Estado="Activa") & " act."
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 2 * ((Parent.Width - 56) / 7 + 4)
+        Y: =254
+
+    RctDay3Cal As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd"),RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 1))
+        Height: =72
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 3 * ((Parent.Width - 56) / 7 + 4)
+        Y: =204
+
+    LblDay3Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(15, 61, 115, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =20
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =10
+        Text: ="Jue"
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 3 * ((Parent.Width - 56) / 7 + 4)
+        Y: =212
+
+    LblDate3Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =18
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd"))
+        Text: =Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"dd")
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 3 * ((Parent.Width - 56) / 7 + 4)
+        Y: =234
+
+    LblCnt3Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        Height: =16
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =9
+        Text: =CountIf(Reservas,FechaServicio=Text(DateAdd(DateValue(gCalFecha),3,TimeUnit.Days),"yyyy-mm-dd") && Estado="Activa") & " act."
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 3 * ((Parent.Width - 56) / 7 + 4)
+        Y: =254
+
+    RctDay4Cal As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd"),RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 1))
+        Height: =72
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 4 * ((Parent.Width - 56) / 7 + 4)
+        Y: =204
+
+    LblDay4Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(15, 61, 115, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =20
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =10
+        Text: ="Vie"
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 4 * ((Parent.Width - 56) / 7 + 4)
+        Y: =212
+
+    LblDate4Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =18
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd"))
+        Text: =Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"dd")
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 4 * ((Parent.Width - 56) / 7 + 4)
+        Y: =234
+
+    LblCnt4Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        Height: =16
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =9
+        Text: =CountIf(Reservas,FechaServicio=Text(DateAdd(DateValue(gCalFecha),4,TimeUnit.Days),"yyyy-mm-dd") && Estado="Activa") & " act."
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 4 * ((Parent.Width - 56) / 7 + 4)
+        Y: =254
+
+    RctDay5Cal As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd"),RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 1))
+        Height: =72
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 5 * ((Parent.Width - 56) / 7 + 4)
+        Y: =204
+
+    LblDay5Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(15, 61, 115, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =20
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =10
+        Text: ="Sab"
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 5 * ((Parent.Width - 56) / 7 + 4)
+        Y: =212
+
+    LblDate5Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =18
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd"))
+        Text: =Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"dd")
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 5 * ((Parent.Width - 56) / 7 + 4)
+        Y: =234
+
+    LblCnt5Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        Height: =16
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =9
+        Text: =CountIf(Reservas,FechaServicio=Text(DateAdd(DateValue(gCalFecha),5,TimeUnit.Days),"yyyy-mm-dd") && Estado="Activa") & " act."
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 5 * ((Parent.Width - 56) / 7 + 4)
+        Y: =254
+
+    RctDay6Cal As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"yyyy-mm-dd"),RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 1))
+        Height: =72
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"yyyy-mm-dd"))
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 6 * ((Parent.Width - 56) / 7 + 4)
+        Y: =204
+
+    LblDay6Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(15, 61, 115, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =20
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =10
+        Text: ="Dom"
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 6 * ((Parent.Width - 56) / 7 + 4)
+        Y: =212
+
+    LblDate6Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Bold
+        Height: =18
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"yyyy-mm-dd"))
+        Text: =Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"dd")
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 6 * ((Parent.Width - 56) / 7 + 4)
+        Y: =234
+
+    LblCnt6Cal As label.Label:
+        Align: =Align.Center
+        Color: =If(gCalFechaDetalle=Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"yyyy-mm-dd"),RGBA(255, 255, 255, 1),RGBA(204, 150, 0, 1))
+        Height: =16
+        OnSelect: =Set(gCalFechaDetalle,Text(DateAdd(DateValue(gCalFecha),6,TimeUnit.Days),"yyyy-mm-dd"))
+        Size: =8
+        Text: ="Sin servicio"
+        Width: =(Parent.Width - 56) / 7
+        X: =20 + 6 * ((Parent.Width - 56) / 7 + 4)
+        Y: =254
+
+    RctInfoCal As rectangle.ManualInput:
+        BorderThickness: =0
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =76
+        RadiusBottomLeft: =14
+        RadiusBottomRight: =14
+        RadiusTopLeft: =14
+        RadiusTopRight: =14
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =292
+
+    LblInfoCal As label.Label:
+        Color: =RGBA(26, 39, 66, 1)
+        Height: =52
+        Size: =11
+        Text: |-
+            ="Fecha seleccionada: " & gCalFechaDetalle & Char(10) & If(Weekday(DateValue(gCalFechaDetalle),StartOfWeek.Monday)=7,"Domingo sin disponibilidad.",If(Weekday(DateValue(gCalFechaDetalle),StartOfWeek.Monday)=6,"Bloques: SAB_0730_0930, SAB_0930_1130, SAB_1130_1330, SAB_1330_1530","Bloques: LV_0600_0800, LV_0800_1000, LV_1200_1400, LV_1600_1830, LV_1830_2100"))
+        Width: =Parent.Width - 64
+        X: =32
+        Y: =304
+
+    RctNewCal As rectangle.ManualInput:
+        Fill: =RGBA(15, 61, 115, 1)
+        Height: =48
+        OnSelect: =If(Weekday(DateValue(gCalFechaDetalle),StartOfWeek.Monday)=7,Notify("No puedes crear reservas para domingo.",NotificationType.Error),Set(gReservaFechaPrefill,gCalFechaDetalle);Set(gItemEdit,Blank());Set(gBloqueReserva,If(Weekday(DateValue(gCalFechaDetalle),StartOfWeek.Monday)=6,"SAB_0730_0930","LV_0600_0800"));Navigate(ScrItemFormReserva,ScreenTransition.None))
+        RadiusBottomLeft: =14
+        RadiusBottomRight: =14
+        RadiusTopLeft: =14
+        RadiusTopRight: =14
+        Visible: =gRol<>"Invitado"
+        Width: =180
+        X: =Parent.Width - 200
+        Y: =Parent.Height - 68
+
+    LblNewCal As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =If(Weekday(DateValue(gCalFechaDetalle),StartOfWeek.Monday)=7,Notify("No puedes crear reservas para domingo.",NotificationType.Error),Set(gReservaFechaPrefill,gCalFechaDetalle);Set(gItemEdit,Blank());Set(gBloqueReserva,If(Weekday(DateValue(gCalFechaDetalle),StartOfWeek.Monday)=6,"SAB_0730_0930","LV_0600_0800"));Navigate(ScrItemFormReserva,ScreenTransition.None))
+        Size: =13
+        Text: ="Crear reserva"
+        Visible: =RctNewCal.Visible
+        Width: =180
+        X: =Parent.Width - 200
+        Y: =Parent.Height - 68
+
+    DataTableCal As dataTable.datatable:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.Solid
+        Color: =RGBA(50, 49, 48, 1)
+        DisabledColor: =RGBA(161, 159, 157, 1)
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Normal
+        HeadingColor: =RGBA(255, 255, 255, 1)
+        HeadingFill: =RGBA(15, 61, 115, 1)
+        HeadingFont: =Font.'Segoe UI'
+        HeadingFontWeight: =FontWeight.Normal
+        HeadingSize: =11
+        Height: =Parent.Height - 468
+        HoverColor: =RGBA(15, 61, 115, 1)
+        HoverFill: =RGBA(220, 232, 248, 1)
+        InputFill: =RGBA(245, 245, 245, 1)
+        InvertedColor: =RGBA(255, 255, 255, 1)
+        Items: =SortByColumns(Filter(Reservas,FechaServicio=gCalFechaDetalle),"Bloque",SortOrder.Ascending)
+        LinkColor: =RGBA(0, 120, 212, 1)
+        PrimaryColor1: =RGBA(26, 92, 168, 1)
+        PrimaryColor2: =RGBA(46, 123, 196, 1)
+        PrimaryColor3: =RGBA(15, 61, 115, 1)
+        SelectedColor: =RGBA(15, 61, 115, 1)
+        SelectedFill: =RGBA(220, 232, 248, 1)
+        Size: =12
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =384
+        ZIndex: =1
+
+        DataTableCal_Material_Columna1 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Material"
+            FieldName: ="MaterialNombre"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =1
+            Text: =ThisItem.MaterialNombre
+            Width: =210
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableCal_Bloque_Columna2 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Bloque"
+            FieldName: ="Bloque"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =2
+            Text: =ThisItem.Bloque
+            Width: =170
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableCal_Docente_Columna3 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Docente"
+            FieldName: ="DocenteNombre"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =3
+            Text: =ThisItem.DocenteNombre
+            Width: =210
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableCal_Estado_Columna4 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Estado"
+            FieldName: ="Estado"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =4
+            Text: =ThisItem.Estado
+            Width: =120
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+

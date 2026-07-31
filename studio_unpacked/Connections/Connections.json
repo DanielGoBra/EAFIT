@@ -1,0 +1,48 @@
+{
+  "71fafd9c-0aea-4d08-9341-a7f327ec7dc9": {
+    "appActions": [
+      "providers/PowerPlatform.Governance/Operations/Read",
+      "providers/PowerPlatform.Governance/Operations/Write",
+      "providers/PowerPlatform.Governance/Operations/Delete"
+    ],
+    "connectionRef": {
+      "apiTier": "Standard",
+      "displayName": "Excel Online (Empresas)",
+      "iconUri": "https://conn-afd-prod-endpoint-bmc9bqahasf3grgk.b01.azurefd.net/releases/v1.0.1800/1.0.1800.4672/excelonlinebusiness/icon.png",
+      "id": "/providers/microsoft.powerapps/apis/shared_excelonlinebusiness",
+      "parameterHints": {},
+      "parameterHintsV2": {}
+    },
+    "datasets": {
+      "groups%252F339a7e88-12a7-46f6-8b0e-2aa0d9369bce,b%2521Y51e5pS7X0KCD-U0Nv7YwWYEwR-WQoBAjjpVrzp1vjGYLxbRUKkjRodakw9Xfqv3,01TJAXSWFN2WA4JN3GTZFYJFA5P7XC7CRT": {
+        "dataSources": {
+          "Cocina": {
+            "tableName": "{C6308007-6256-4BA1-92A5-FA1B8972DCFB}"
+          },
+          "Prestamos": {
+            "tableName": "{415E1A29-9125-4071-85FC-C17BDDD13346}"
+          },
+          "Recursos": {
+            "tableName": "{8C188735-C186-442F-81F8-152E782DC059}"
+          },
+          "Reservas": {
+            "tableName": "{C8B64F41-D695-4036-81C2-630387F8A530}"
+          },
+          "Usuarios": {
+            "tableName": "{DDC10D5C-2DEE-48CE-B7DC-40CF4625AB1D}"
+          }
+        }
+      }
+    },
+    "dataSources": [
+      "Recursos",
+      "Cocina",
+      "Usuarios",
+      "Reservas",
+      "Prestamos"
+    ],
+    "dependencies": {},
+    "dependents": [],
+    "id": "71fafd9c-0aea-4d08-9341-a7f327ec7dc9"
+  }
+}

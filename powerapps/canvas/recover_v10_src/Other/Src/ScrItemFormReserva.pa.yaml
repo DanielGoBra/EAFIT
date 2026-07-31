@@ -1,0 +1,690 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  ScrItemFormReserva:
+    Properties:
+      Fill: =RGBA(238, 244, 252, 1)
+      LoadingSpinnerColor: =RGBA(0, 51, 102, 1)
+      OnVisible: =Concurrent(Set(gEstadoReserva,If(IsBlank(gItemEdit),"Pendiente",If(IsBlank(gItemEdit.Estado),"Pendiente",gItemEdit.Estado))),Set(gBloqueReserva,If(IsBlank(gItemEdit),"1",Coalesce(gItemEdit.Bloque,"1"))))
+    Children:
+      - RctHdrFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(15, 61, 115, 1)
+            Height: =72
+            Width: =Parent.Width
+      - RctFDelOvlFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(0, 0, 0, 0.55)
+            Height: =Parent.Height
+            Visible: =gConfirmDel
+            Width: =Parent.Width
+      - RctFDelCardFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =180
+            Visible: =gConfirmDel
+            Width: =310
+            X: =(Parent.Width-310)/2
+            Y: =(Parent.Height-180)/2
+      - LblFDelMsgFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =72
+            PaddingTop: =8
+            Text: ="¿Eliminar este elemento?" & Char(10) & "Esta acción no se puede deshacer."
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =gConfirmDel
+            Width: =278
+            X: =(Parent.Width-278)/2
+            Y: =(Parent.Height-180)/2+16
+      - RctFDelYesFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(8, 32, 70, 1)
+            Height: =40
+            OnSelect: =Remove(Reservas,gItemEdit);Set(gConfirmDel,false);Navigate(ScrReservas,ScreenTransition.None)
+            Visible: =gConfirmDel
+            Width: =130
+            X: =(Parent.Width-310)/2+16
+            Y: =(Parent.Height-180)/2+104
+      - LblFDelYesFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(247, 181, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Remove(Reservas,gItemEdit);Set(gConfirmDel,false);Navigate(ScrReservas,ScreenTransition.None)
+            Size: =12
+            Text: ="Eliminar"
+            Visible: =gConfirmDel
+            Width: =130
+            X: =(Parent.Width-310)/2+16
+            Y: =(Parent.Height-180)/2+104
+      - RctFDelNoFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(229, 231, 235, 1)
+            Height: =40
+            OnSelect: =Set(gConfirmDel,false)
+            Visible: =gConfirmDel
+            Width: =130
+            X: =(Parent.Width-310)/2+164
+            Y: =(Parent.Height-180)/2+104
+      - LblFDelNoFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gConfirmDel,false)
+            Size: =12
+            Text: ="Cancelar"
+            Visible: =gConfirmDel
+            Width: =130
+            X: =(Parent.Width-310)/2+164
+            Y: =(Parent.Height-180)/2+104
+      - LblTitleFRsv:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =72
+            Size: =16
+            Text: =If(IsBlank(gItemEdit),"Nueva reserva","Editar reserva")
+            Width: =Parent.Width - 68
+            X: =58
+      - RctBackFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(46, 123, 196, 1)
+            Height: =40
+            OnSelect: =Set(gItemEdit,Blank());Navigate(ScrReservas,ScreenTransition.None)
+            Width: =44
+            X: =4
+            Y: =16
+      - LblBackFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Set(gItemEdit,Blank());Navigate(ScrReservas,ScreenTransition.None)
+            Size: =22
+            Text: ="←"
+            Width: =44
+            X: =4
+            Y: =16
+      - RctAccentFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =3
+            Width: =Parent.Width
+            Y: =72
+      - LblFFRsv0:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =12
+            Text: ="Docente *"
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =87
+      - TxtFRsvDocente:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Color: =RGBA(70, 68, 64, 1)
+            Default: =If(IsBlank(gItemEdit),User().FullName,gItemEdit.Docente)
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 40%)
+            DisabledColor: =ColorFade(Self.Color, 40%)
+            DisabledFill: =Self.Fill
+            FocusedBorderThickness: =3
+            Font: =Font.'Open Sans'
+            Height: =44
+            HintText: =
+            HoverBorderColor: =Self.Color
+            HoverColor: =Self.Color
+            HoverFill: =Self.Fill
+            PaddingLeft: =10
+            PaddingRight: =10
+            Size: =14
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =111
+      - LblFFRsv1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =12
+            Text: ="Recurso *"
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =167
+      - TxtFRsvRecurso:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Color: =RGBA(70, 68, 64, 1)
+            Default: =If(IsBlank(gItemEdit),"",gItemEdit.Recurso)
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 40%)
+            DisabledColor: =ColorFade(Self.Color, 40%)
+            DisabledFill: =Self.Fill
+            FocusedBorderThickness: =3
+            Font: =Font.'Open Sans'
+            Height: =44
+            HintText: =
+            HoverBorderColor: =Self.Color
+            HoverColor: =Self.Color
+            HoverFill: =Self.Fill
+            PaddingLeft: =10
+            PaddingRight: =10
+            Size: =14
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =191
+      - LblFFRsv2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =12
+            Text: ="Fecha (AAAA-MM-DD)"
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =247
+      - TxtFRsvFecha:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Color: =RGBA(70, 68, 64, 1)
+            Default: =If(IsBlank(gItemEdit),Text(Today(),"yyyy-mm-dd"),Left(gItemEdit.FechaInicio,10))
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 40%)
+            DisabledColor: =ColorFade(Self.Color, 40%)
+            DisabledFill: =Self.Fill
+            FocusedBorderThickness: =3
+            Font: =Font.'Open Sans'
+            Height: =44
+            HintText: =
+            HoverBorderColor: =Self.Color
+            HoverColor: =Self.Color
+            HoverFill: =Self.Fill
+            PaddingLeft: =10
+            PaddingRight: =10
+            Size: =14
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =271
+      - LblBloqueTitFRsv:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =12
+            Text: ="Bloque horario"
+            Width: =Parent.Width-40
+            X: =20
+            Y: =327
+      - RctBlk2FRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gBloqueReserva="2",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gBloqueReserva,"2")
+            Width: =(Parent.Width - 64) / 4
+            X: =20 + 1 * ((Parent.Width - 64) / 4 + 8)
+            Y: =349
+      - LblBlk2FRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gBloqueReserva="2",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gBloqueReserva,"2")
+            Size: =10
+            Text: ="L-V 08-10"
+            Width: =(Parent.Width - 64) / 4
+            X: =20 + 1 * ((Parent.Width - 64) / 4 + 8)
+            Y: =349
+      - RctBlk3FRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gBloqueReserva="3",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gBloqueReserva,"3")
+            Width: =(Parent.Width - 64) / 4
+            X: =20 + 2 * ((Parent.Width - 64) / 4 + 8)
+            Y: =349
+      - LblBlk3FRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gBloqueReserva="3",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gBloqueReserva,"3")
+            Size: =10
+            Text: ="L-V 12-14"
+            Width: =(Parent.Width - 64) / 4
+            X: =20 + 2 * ((Parent.Width - 64) / 4 + 8)
+            Y: =349
+      - RctBlk4FRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gBloqueReserva="4",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gBloqueReserva,"4")
+            Width: =(Parent.Width - 64) / 4
+            X: =20 + 3 * ((Parent.Width - 64) / 4 + 8)
+            Y: =349
+      - LblBlk4FRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gBloqueReserva="4",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gBloqueReserva,"4")
+            Size: =10
+            Text: ="L-V 16-18:30"
+            Width: =(Parent.Width - 64) / 4
+            X: =20 + 3 * ((Parent.Width - 64) / 4 + 8)
+            Y: =349
+      - RctBlk1FRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gBloqueReserva="1",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gBloqueReserva,"1")
+            Width: =(Parent.Width - 64) / 4
+            X: =20
+            Y: =349
+      - LblBlk1FRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gBloqueReserva="1",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gBloqueReserva,"1")
+            Size: =10
+            Text: ="L-V 06-08"
+            Width: =(Parent.Width - 64) / 4
+            X: =20
+            Y: =349
+      - RctBlk6FRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gBloqueReserva="6",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gBloqueReserva,"6")
+            Width: =(Parent.Width - 56) / 3
+            X: =20 + 1 * ((Parent.Width - 56) / 3 + 8)
+            Y: =397
+      - LblBlk6FRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gBloqueReserva="6",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gBloqueReserva,"6")
+            Size: =10
+            Text: ="Sáb 7:30-9:30"
+            Width: =(Parent.Width - 56) / 3
+            X: =20 + 1 * ((Parent.Width - 56) / 3 + 8)
+            Y: =397
+      - RctBlk7FRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gBloqueReserva="7",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gBloqueReserva,"7")
+            Width: =(Parent.Width - 56) / 3
+            X: =20 + 2 * ((Parent.Width - 56) / 3 + 8)
+            Y: =397
+      - LblBlk7FRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gBloqueReserva="7",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gBloqueReserva,"7")
+            Size: =10
+            Text: ="Sáb 9:30-11:30"
+            Width: =(Parent.Width - 56) / 3
+            X: =20 + 2 * ((Parent.Width - 56) / 3 + 8)
+            Y: =397
+      - RctBlk5FRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gBloqueReserva="5",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gBloqueReserva,"5")
+            Width: =(Parent.Width - 56) / 3
+            X: =20
+            Y: =397
+      - LblBlk5FRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gBloqueReserva="5",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gBloqueReserva,"5")
+            Size: =10
+            Text: ="L-V 18:30-21"
+            Width: =(Parent.Width - 56) / 3
+            X: =20
+            Y: =397
+      - LblEstadoTitFRsv:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =12
+            Text: ="Estado de la reserva"
+            Width: =Parent.Width-40
+            X: =20
+            Y: =453
+      - RctEstAprobadaFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gEstadoReserva="Aprobada",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gEstadoReserva,"Aprobada")
+            Width: =(Parent.Width - 56) / 3
+            X: =20+(Parent.Width-56)/3+8
+            Y: =479
+      - LblEstAprobadaFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gEstadoReserva="Aprobada",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gEstadoReserva,"Aprobada")
+            Size: =11
+            Text: ="Aprobada"
+            Width: =(Parent.Width - 56) / 3
+            X: =20+(Parent.Width-56)/3+8
+            Y: =479
+      - RctEstDenegadaFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gEstadoReserva="Denegada",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gEstadoReserva,"Denegada")
+            Width: =(Parent.Width - 56) / 3
+            X: =20+2*(Parent.Width-56)/3+16
+            Y: =479
+      - LblEstDenegadaFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gEstadoReserva="Denegada",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gEstadoReserva,"Denegada")
+            Size: =11
+            Text: ="Denegada"
+            Width: =(Parent.Width - 56) / 3
+            X: =20+2*(Parent.Width-56)/3+16
+            Y: =479
+      - RctEstPendienteFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =If(gEstadoReserva="Pendiente",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+            Height: =40
+            OnSelect: =Set(gEstadoReserva,"Pendiente")
+            Width: =(Parent.Width - 56) / 3
+            X: =20
+            Y: =479
+      - LblEstPendienteFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(gEstadoReserva="Pendiente",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gEstadoReserva,"Pendiente")
+            Size: =11
+            Text: ="Pendiente"
+            Width: =(Parent.Width - 56) / 3
+            X: =20
+            Y: =479
+      - LblNotasTitFRsv:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =22
+            Size: =12
+            Text: ="Notas (opcional)"
+            Width: =Parent.Width-40
+            X: =20
+            Y: =531
+      - TxtFRsvNotas:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Color: =RGBA(70, 68, 64, 1)
+            Default: =If(IsBlank(gItemEdit),"",Coalesce(gItemEdit.Notas,""))
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 40%)
+            DisabledColor: =ColorFade(Self.Color, 40%)
+            DisabledFill: =Self.Fill
+            FocusedBorderThickness: =3
+            Font: =Font.'Open Sans'
+            Height: =50
+            HintText: ="Observaciones adicionales..."
+            HoverBorderColor: =Self.Color
+            HoverColor: =Self.Color
+            HoverFill: =Self.Fill
+            Mode: =TextMode.MultiLine
+            RadiusBottomLeft: =8
+            RadiusBottomRight: =8
+            RadiusTopLeft: =8
+            RadiusTopRight: =8
+            Size: =14
+            Width: =Parent.Width-40
+            X: =20
+            Y: =553
+      - RctWarnDmgFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(204, 150, 0, 1)
+            BorderThickness: =2
+            Fill: =RGBA(255, 248, 220, 1)
+            Height: =44
+            Visible: =Len(TxtFRsvRecurso.Text)>0 && (Lower(Coalesce(LookUp(Recursos,Juegos=TxtFRsvRecurso.Text,Observaciones),"")) exactin "dañado" || Lower(Coalesce(LookUp(Recursos,Juegos=TxtFRsvRecurso.Text,Observaciones),"")) exactin "fuera de servicio")
+            Width: =Parent.Width-40
+            X: =20
+            Y: =611
+      - LblWarnDmgFRsv:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(204, 150, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =44
+            Size: =11
+            Text: ="⛔  Este recurso está dañado o fuera de servicio."
+            Visible: =Len(TxtFRsvRecurso.Text)>0 && (Lower(Coalesce(LookUp(Recursos,Juegos=TxtFRsvRecurso.Text,Observaciones),"")) exactin "dañado" || Lower(Coalesce(LookUp(Recursos,Juegos=TxtFRsvRecurso.Text,Observaciones),"")) exactin "fuera de servicio")
+            Width: =Parent.Width-64
+            X: =32
+            Y: =611
+      - RctWarnFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(247, 181, 0, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 248, 220, 1)
+            Height: =44
+            Visible: =Len(TxtFRsvRecurso.Text)>0 && Len(TxtFRsvFecha.Text)>=10 && CountIf(Reservas,Recurso=TxtFRsvRecurso.Text && Estado="Aprobada" && Left(FechaInicio,10)=TxtFRsvFecha.Text)>0
+            Width: =Parent.Width-40
+            X: =20
+            Y: =663
+      - LblWarnFRsv:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(204, 150, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            Size: =11
+            Text: =If(Len(TxtFRsvRecurso.Text)>0 && Len(TxtFRsvFecha.Text)>=10 && CountIf(Reservas,Recurso=TxtFRsvRecurso.Text && Estado="Aprobada" && Left(FechaInicio,10)=TxtFRsvFecha.Text)>0,"⚠  Ya existe una reserva aprobada para este recurso en esta fecha.","")
+            Visible: =Len(TxtFRsvRecurso.Text)>0 && Len(TxtFRsvFecha.Text)>=10 && CountIf(Reservas,Recurso=TxtFRsvRecurso.Text && Estado="Aprobada" && Left(FechaInicio,10)=TxtFRsvFecha.Text)>0
+            Width: =Parent.Width-64
+            X: =32
+            Y: =663
+      - RctSaveFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =44
+            OnSelect: =If(IsBlank(Trim(TxtFRsvRecurso.Text))||IsBlank(Trim(TxtFRsvFecha.Text)),Notify("Recurso y Fecha son obligatorios",NotificationType.Error),IfError(Patch(Reservas,If(IsBlank(gItemEdit),Defaults(Reservas),gItemEdit),{Docente:TxtFRsvDocente.Text,Recurso:TxtFRsvRecurso.Text,Bloque:gBloqueReserva,FechaInicio:TxtFRsvFecha.Text & " " & Switch(gBloqueReserva,"1","06:00","2","08:00","3","12:00","4","16:00","5","18:30","6","07:30","7","09:30","06:00"),FechaFin:TxtFRsvFecha.Text & " " & Switch(gBloqueReserva,"1","08:00","2","10:00","3","14:00","4","18:30","5","21:00","6","09:30","7","11:30","08:00"),Notas:TxtFRsvNotas.Text,Estado:gEstadoReserva,Aprobado:If(gEstadoReserva="Aprobada","TRUE","FALSE")});Refresh(Reservas);Set(gItemEdit,Blank());Notify("Reserva guardada",NotificationType.Success);Navigate(ScrReservas,ScreenTransition.None),Notify("No se pudo guardar la reserva. Revisa la conexión a Excel.",NotificationType.Error)))
+            Width: =Parent.Width-40
+            X: =20
+            Y: =719
+      - LblSaveFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            OnSelect: =If(IsBlank(Trim(TxtFRsvRecurso.Text))||IsBlank(Trim(TxtFRsvFecha.Text)),Notify("Recurso y Fecha son obligatorios",NotificationType.Error),IfError(Patch(Reservas,If(IsBlank(gItemEdit),Defaults(Reservas),gItemEdit),{Docente:TxtFRsvDocente.Text,Recurso:TxtFRsvRecurso.Text,Bloque:gBloqueReserva,FechaInicio:TxtFRsvFecha.Text & " " & Switch(gBloqueReserva,"1","06:00","2","08:00","3","12:00","4","16:00","5","18:30","6","07:30","7","09:30","06:00"),FechaFin:TxtFRsvFecha.Text & " " & Switch(gBloqueReserva,"1","08:00","2","10:00","3","14:00","4","18:30","5","21:00","6","09:30","7","11:30","08:00"),Notas:TxtFRsvNotas.Text,Estado:gEstadoReserva,Aprobado:If(gEstadoReserva="Aprobada","TRUE","FALSE")});Refresh(Reservas);Set(gItemEdit,Blank());Notify("Reserva guardada",NotificationType.Success);Navigate(ScrReservas,ScreenTransition.None),Notify("No se pudo guardar la reserva. Revisa la conexión a Excel.",NotificationType.Error)))
+            Size: =15
+            Text: ="Guardar reserva"
+            Width: =Parent.Width-40
+            X: =20
+            Y: =719
+      - RctDelFRsv:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(8, 32, 70, 1)
+            Height: =44
+            OnSelect: =Set(gConfirmDel,true)
+            Visible: =!IsBlank(gItemEdit) && (gRol="SuperAdmin" || (gRol in ["Admin","Docente"] && gItemEdit.Docente=User().FullName && DateAdd(Now(),30,TimeUnit.Minutes)<DateTimeValue(gItemEdit.FechaInicio)))
+            Width: =Parent.Width-40
+            X: =20
+            Y: =775
+      - LblDelFRsv:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(247, 181, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            OnSelect: =Set(gConfirmDel,true)
+            Size: =14
+            Text: =If(gRol="SuperAdmin","Eliminar reserva","Cancelar mi reserva")
+            Visible: =!IsBlank(gItemEdit) && (gRol="SuperAdmin" || (gRol in ["Admin","Docente"] && gItemEdit.Docente=User().FullName && DateAdd(Now(),30,TimeUnit.Minutes)<DateTimeValue(gItemEdit.FechaInicio)))
+            Width: =Parent.Width-40
+            X: =20
+            Y: =775

@@ -1,0 +1,12 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+App:
+  Properties:
+    OnStart: =Concurrent(Set(gUser,User()),Set(gItemEdit,Blank()),Set(gConfirmDel,false),Set(gConfirmDelInv,false),Set(gEstadoEdit,"Disponible"),Set(gEstadoReserva,"Pendiente"),Set(gTipoPrestamo,"Retiro"),Set(gRolEdit,"Docente"),Set(gActivoUsr,"Activo"),Set(gRol,Coalesce(LookUp(Usuarios,Email=User().Email,Rol),If(EndsWith(Lower(User().Email),"@eafit.edu.co"),"Docente","Invitado"))),Set(gFechaDesde,Text(DateAdd(Today(),-30,Days),"yyyy-mm-dd")),Set(gPeriodo,"Mes"),Set(gRptTab,1),Set(gBloqueReserva,"1"),Set(gFiltroReserva,"Todos"),Set(gFiltroPrestamo,"Todos"),Set(gCalFecha,Text(DateAdd(Today(),-Weekday(Today())+2,Days),"yyyy-mm-dd")),ClearCollect(colSelReservas,Blank()),ClearCollect(colChat,{role:"bot",msg:"Hola, soy tu asistente del laboratorio de idiomas EAFIT. ¿En qué puedo ayudarte?"}))
+    Theme: =PowerAppsTheme

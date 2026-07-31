@@ -1,0 +1,11 @@
+{
+  "AppName": "Control MVP",
+  "BackgroundColor": "RGBA(26,92,168,1)",
+  "IconColor": "RGBA(255,255,255,1)",
+  "IconName": "Education",
+  "LogoFileName": "",
+  "PublishDataLocally": false,
+  "PublishResourcesLocally": false,
+  "PublishTarget": "player",
+  "UserLocale": "es-ES"
+}

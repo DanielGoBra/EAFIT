@@ -1,0 +1,185 @@
+ScrInventario As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+
+    RctHdrInv As rectangle.ManualInput:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =64
+        Fill: =RGBA(26, 92, 168, 1)
+        BorderThickness: =0
+
+    BtnBackInv As button.Button:
+        X: =12
+        Y: =14
+        Width: =36
+        Height: =36
+        Text: ="<"
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 255, 255, 0.15)
+        HoverFill: =RGBA(255, 255, 255, 0.25)
+        PressedFill: =RGBA(255, 255, 255, 0.35)
+        BorderColor: =RGBA(255, 255, 255, 0.3)
+        HoverBorderColor: =RGBA(255, 255, 255, 0.5)
+        PressedBorderColor: =RGBA(255, 255, 255, 0.5)
+        BorderThickness: =1
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        FontWeight: =FontWeight.Bold
+        Size: =16
+        OnSelect: =Navigate(Screen1, ScreenTransition.Fade)
+
+    LblHdrInvSub As label.Label:
+        X: =60
+        Y: =8
+        Width: =500
+        Height: =20
+        Text: ="Escuela de Idiomas · EAFIT"
+        Color: =RGBA(255, 255, 255, 0.7)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Semibold
+
+    LblHdrInvTitle As label.Label:
+        X: =60
+        Y: =26
+        Width: =600
+        Height: =30
+        Text: ="Inventario de Materiales"
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =17
+        FontWeight: =FontWeight.Bold
+
+    RctSubInv As rectangle.ManualInput:
+        X: =0
+        Y: =64
+        Width: =Parent.Width
+        Height: =44
+        Fill: =RGBA(15, 61, 115, 1)
+        BorderThickness: =0
+
+    LblInvTotal As label.Label:
+        X: =20
+        Y: =64
+        Width: =200
+        Height: =44
+        Text: =CountRows(gColInventario) & " articulos"
+        Color: =RGBA(255, 255, 255, 0.9)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        FontWeight: =FontWeight.Semibold
+
+    LblInvDisp As label.Label:
+        X: =230
+        Y: =64
+        Width: =240
+        Height: =44
+        Text: =CountIf(gColInventario, estado="Disponible") & " disponibles"
+        Color: =RGBA(247, 181, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        FontWeight: =FontWeight.Semibold
+
+    TxtBuscarInv As textInput.TextInput:
+        X: =16
+        Y: =120
+        Width: =900
+        Height: =44
+        HintText: ="Buscar por nombre o categoria..."
+        Default: =""
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        BorderColor: =RGBA(226, 232, 240, 1)
+        HoverBorderColor: =RGBA(26, 92, 168, 0.5)
+        FocusedBorderColor: =RGBA(26, 92, 168, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        Size: =13
+        PaddingLeft: =12
+
+    RctInvColHeader As rectangle.ManualInput:
+        X: =16
+        Y: =176
+        Width: =Parent.Width - 32
+        Height: =40
+        Fill: =RGBA(235, 243, 255, 1)
+        BorderThickness: =0
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+
+    LblInvColNombre As label.Label:
+        X: =28
+        Y: =176
+        Width: =400
+        Height: =40
+        Text: ="Articulo"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    LblInvColCat As label.Label:
+        X: =440
+        Y: =176
+        Width: =200
+        Height: =40
+        Text: ="Categoria"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    LblInvColCant As label.Label:
+        X: =660
+        Y: =176
+        Width: =120
+        Height: =40
+        Text: ="Cantidad"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    LblInvColEstado As label.Label:
+        X: =940
+        Y: =176
+        Width: =200
+        Height: =40
+        Text: ="Estado"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    RctInvInfo As rectangle.ManualInput:
+        X: =16
+        Y: =228
+        Width: =Parent.Width - 32
+        Height: =480
+        Fill: =RGBA(255, 255, 255, 1)
+        BorderColor: =RGBA(226, 232, 240, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+
+    LblInvGalleryHint As label.Label:
+        X: =16
+        Y: =228
+        Width: =Parent.Width - 32
+        Height: =480
+        Text: ="Conecta una Galeria de Power Apps con Items: Search(gColInventario, TxtBuscarInv.Text, nombre, categoria)" & Char(10) & Char(10) & "Articulos en inventario: " & CountRows(gColInventario) & Char(10) & "Disponibles: " & CountIf(gColInventario, estado="Disponible") & Char(10) & "En uso: " & CountIf(gColInventario, estado="En uso") & Char(10) & "Vencidos: " & CountIf(gColInventario, estado="Vencido")
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =13
+        Wrap: =true
+        PaddingLeft: =24
+        PaddingTop: =24
+        VerticalAlign: =VerticalAlign.Top

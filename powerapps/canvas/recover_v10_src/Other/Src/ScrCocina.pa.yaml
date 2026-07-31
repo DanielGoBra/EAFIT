@@ -1,0 +1,489 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  ScrCocina:
+    Properties:
+      Fill: =RGBA(238, 244, 252, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Children:
+      - RctDelOvlCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(0, 0, 0, 0.55)
+            Height: =Parent.Height
+            Visible: =gConfirmDelInv
+            Width: =Parent.Width
+      - RctDelCardCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =170
+            Visible: =gConfirmDelInv
+            Width: =310
+            X: =(Parent.Width-310)/2
+            Y: =(Parent.Height-170)/2
+      - LblDelMsgCo:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            Height: =64
+            PaddingTop: =6
+            Size: =12
+            Text: ="¿Eliminar """ & gItemEdit.Elemento & """?" & Char(10) & "Esta acción no se puede deshacer."
+            VerticalAlign: =VerticalAlign.Top
+            Visible: =gConfirmDelInv
+            Width: =278
+            X: =(Parent.Width-278)/2
+            Y: =(Parent.Height-170)/2+16
+      - RctDelYesCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(8, 32, 70, 1)
+            Height: =40
+            OnSelect: =Remove(Cocina;gItemEdit);;Set(gConfirmDelInv;false);;Set(gItemEdit;Blank())
+            Visible: =gConfirmDelInv
+            Width: =130
+            X: =(Parent.Width-310)/2+16
+            Y: =(Parent.Height-170)/2+96
+      - LblDelYesCo:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(247, 181, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Remove(Cocina;gItemEdit);;Set(gConfirmDelInv;false);;Set(gItemEdit;Blank())
+            Size: =12
+            Text: ="Eliminar"
+            Visible: =gConfirmDelInv
+            Width: =130
+            X: =(Parent.Width-310)/2+16
+            Y: =(Parent.Height-170)/2+96
+      - RctDelNoCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(229, 231, 235, 1)
+            Height: =40
+            OnSelect: =Set(gConfirmDelInv,false)
+            Visible: =gConfirmDelInv
+            Width: =130
+            X: =(Parent.Width-310)/2+164
+            Y: =(Parent.Height-170)/2+96
+      - LblDelNoCo:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            OnSelect: =Set(gConfirmDelInv,false)
+            Size: =12
+            Text: ="Cancelar"
+            Visible: =gConfirmDelInv
+            Width: =130
+            X: =(Parent.Width-310)/2+164
+            Y: =(Parent.Height-170)/2+96
+      - RctFabMaskCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(238, 244, 252, 1)
+            Height: =64
+            Visible: =gRol = "Docente"
+            Width: =64
+            X: =Parent.Width - 80
+            Y: =Parent.Height - 80
+      - RctFabActCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(0, 0, 0, 0)
+            Height: =56
+            OnSelect: =Set(gItemEdit,Blank());Navigate(ScrItemFormCocina,ScreenTransition.Slide)
+            Visible: =gRol <> "Docente"
+            Width: =56
+            X: =Parent.Width - 76
+            Y: =Parent.Height - 76
+      - RctActBarCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =72
+            Visible: =!IsBlank(DataTable1.Selected.Elemento)
+            Width: =Parent.Width
+            Y: =Parent.Height - 72
+      - RctEditBtnCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =44
+            OnSelect: =Set(gItemEdit,DataTable1.Selected);Navigate(ScrItemFormCocina,ScreenTransition.Slide)
+            Visible: =!IsBlank(DataTable1.Selected.Elemento) && gRol <> "Docente"
+            Width: =68
+            X: =Parent.Width - 156
+            Y: =Parent.Height - 72 + 14
+      - LblEditBtnCo:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            OnSelect: =Set(gItemEdit,DataTable1.Selected);Navigate(ScrItemFormCocina,ScreenTransition.Slide)
+            Size: =11
+            Text: ="✏ Editar"
+            Visible: =!IsBlank(DataTable1.Selected.Elemento) && gRol <> "Docente"
+            Width: =68
+            X: =Parent.Width - 156
+            Y: =Parent.Height - 72 + 14
+      - RctDelBtnCo:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(8, 32, 70, 1)
+            Height: =44
+            OnSelect: =Set(gItemEdit,DataTable1.Selected);Set(gConfirmDelInv,true)
+            Visible: =!IsBlank(DataTable1.Selected.Elemento) && gRol = "SuperAdmin"
+            Width: =64
+            X: =Parent.Width - 80
+            Y: =Parent.Height - 72 + 14
+      - LblDelBtnCo:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(247, 181, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            OnSelect: =Set(gItemEdit,DataTable1.Selected);Set(gConfirmDelInv,true)
+            Size: =11
+            Text: |-
+              ="🗑 Borrar"
+            Visible: =!IsBlank(DataTable1.Selected.Elemento) && gRol = "SuperAdmin"
+            Width: =64
+            X: =Parent.Width - 80
+            Y: =Parent.Height - 72 + 14
+      - LblActNameCo:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =72
+            Size: =12
+            Text: =DataTable1.Selected.Elemento
+            Visible: =!IsBlank(DataTable1.Selected.Elemento)
+            Width: =Parent.Width - 168
+            X: =16
+            Y: =Parent.Height - 72
+      - DataTable1:
+          Control: DataTable@1.0.3
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 0)
+            Color: =RGBA(50, 49, 48, 1)
+            Font: =Font.'Segoe UI'
+            HeadingColor: =RGBA(255, 255, 255, 1)
+            HeadingFill: =RGBA(0, 120, 212, 1)
+            HeadingFont: =Font.'Segoe UI'
+            Height: =626
+            HoverColor: =RGBA(255, 255, 255, 1)
+            HoverFill: =RGBA(0, 120, 212, 1)
+            Items: =Cocina
+            SelectedColor: =RGBA(50, 49, 48, 1)
+            SelectedFill: =RGBA(199, 224, 244, 1)
+            Width: =1318
+            X: =28
+            Y: =121
+          Children:
+            - Bueno_Columna1:
+                Control: DataTableColumn@1.0.1
+                Variant: Textual
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Bueno"
+                  FieldName: ="Bueno"
+                  Order: =1
+                  Text: =ThisItem.Bueno
+            - Elemento_Columna1:
+                Control: DataTableColumn@1.0.1
+                Variant: Textual
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Elemento"
+                  FieldName: ="Elemento"
+                  Order: =2
+                  Text: =ThisItem.Elemento
+            - Existencia_Columna1:
+                Control: DataTableColumn@1.0.1
+                Variant: Textual
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Existencia"
+                  FieldName: ="Existencia"
+                  Order: =3
+                  Text: =ThisItem.Existencia
+            - Malo_Columna1:
+                Control: DataTableColumn@1.0.1
+                Variant: Textual
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Malo"
+                  FieldName: ="Malo"
+                  Order: =4
+                  Text: =ThisItem.Malo
+            - Observaciones_Columna1:
+                Control: DataTableColumn@1.0.1
+                Variant: Textual
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Observaciones"
+                  FieldName: ="Observaciones"
+                  Order: =5
+                  Text: =ThisItem.Observaciones
+            - Observaciones2_Columna1:
+                Control: DataTableColumn@1.0.1
+                Variant: Textual
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Observaciones2"
+                  FieldName: ="Observaciones2"
+                  Order: =6
+                  Text: =ThisItem.Observaciones2
+            - Regular_Columna1:
+                Control: DataTableColumn@1.0.1
+                Variant: Textual
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Regular"
+                  FieldName: ="Regular"
+                  Order: =7
+                  Text: =ThisItem.Regular
+            - Und_Columna1:
+                Control: DataTableColumn@1.0.1
+                Variant: Textual
+                IsLocked: true
+                Properties:
+                  FieldDisplayName: ="Und"
+                  FieldName: ="Und"
+                  Order: =8
+                  Text: =ThisItem.Und
+      - LblFabScrCocina:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Font: =%Font.RESERVED%.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =56
+            Live: =%Live.RESERVED%.Off
+            Overflow: =%Overflow.RESERVED%.Hidden
+            Role: =%TextRole.RESERVED%.Default
+            Size: =28
+            Text: ="+"
+            Width: =56
+            X: =Parent.Width - 76
+            Y: =Parent.Height - 76
+      - RctFabScrCocina:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =56
+            Width: =56
+            X: =Parent.Width - 76
+            Y: =Parent.Height - 76
+      - LblSearchIcoScrCocina:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            Color: =RGBA(107, 112, 128, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Font: =%Font.RESERVED%.'Open Sans'
+            FontWeight: =%FontWeight.RESERVED%.Normal
+            Height: =38
+            Live: =%Live.RESERVED%.Off
+            Overflow: =%Overflow.RESERVED%.Hidden
+            Role: =%TextRole.RESERVED%.Default
+            Text: |-
+              ="🔍"
+            Width: =28
+            X: =28
+            Y: =83
+      - RctSearchScrCocina:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            BorderThickness: =1
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =38
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =83
+      - RctAccentScrCocina:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =3
+            Width: =Parent.Width
+            Y: =72
+      - LblNuevoScrCocina:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Font: =%Font.RESERVED%.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Live: =%Live.RESERVED%.Off
+            Overflow: =%Overflow.RESERVED%.Hidden
+            Role: =%TextRole.RESERVED%.Default
+            Text: ="+ Nuevo"
+            Width: =92
+            X: =Parent.Width - 112
+            Y: =16
+      - RctNuevoScrCocina:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =40
+            Width: =92
+            X: =Parent.Width - 112
+            Y: =16
+      - TxtSearchCo:
+          Control: Classic/TextInput@2.3.2
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Color: =RGBA(70, 68, 64, 1)
+            Default: =""
+            DisabledBorderColor: =ColorFade(Self.BorderColor, 40%)
+            DisabledColor: =ColorFade(Self.Color, 40%)
+            DisabledFill: =Self.Fill
+            FocusedBorderThickness: =3
+            Font: =Font.'Open Sans'
+            Height: =38
+            HintText: ="Buscar por nombre..."
+            HoverBorderColor: =Self.Color
+            HoverColor: =Self.Color
+            HoverFill: =Self.Fill
+            PaddingLeft: =42
+            PaddingRight: =10
+            Size: =14
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =83
+      - LblUserScrCocina:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Right
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            Color: =RGBA(220, 232, 248, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Font: =%Font.RESERVED%.'Open Sans'
+            FontWeight: =%FontWeight.RESERVED%.Normal
+            Height: =72
+            Live: =%Live.RESERVED%.Off
+            Overflow: =%Overflow.RESERVED%.Hidden
+            PaddingRight: =8
+            Role: =%TextRole.RESERVED%.Default
+            Size: =10
+            Text: =User().FullName
+            Width: =120
+            X: =Parent.Width - 124
+      - LblTitleScrCocina:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Font: =%Font.RESERVED%.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =72
+            Live: =%Live.RESERVED%.Off
+            Overflow: =%Overflow.RESERVED%.Hidden
+            Role: =%TextRole.RESERVED%.Default
+            Size: =18
+            Text: ="Cocina · Inventario"
+            Width: =Parent.Width - 184
+            X: =58
+      - LblBackScrCocina:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Font: =%Font.RESERVED%.'Open Sans'
+            FontWeight: =%FontWeight.RESERVED%.Normal
+            Height: =72
+            Live: =%Live.RESERVED%.Off
+            OnSelect: =Navigate(Screen1)
+            Overflow: =%Overflow.RESERVED%.Hidden
+            Role: =%TextRole.RESERVED%.Default
+            Size: =26
+            Text: ="←"
+            Width: =52
+            X: =4
+      - RctHdrScrCocina:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            BorderStyle: =%BorderStyle.RESERVED%.Solid
+            DisplayMode: =%DisplayMode.RESERVED%.Edit
+            Fill: =RGBA(15, 61, 115, 1)
+            Height: =72
+            Width: =Parent.Width

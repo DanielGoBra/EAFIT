@@ -1,0 +1,582 @@
+Screen1 As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+
+    RctHeader As rectangle.ManualInput:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =72
+        Fill: =RGBA(26, 92, 168, 1)
+        BorderThickness: =0
+
+    LblEscuela As label.Label:
+        X: =20
+        Y: =10
+        Width: =500
+        Height: =22
+        Text: ="Escuela de Idiomas · Universidad EAFIT"
+        Color: =RGBA(255, 255, 255, 0.75)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Semibold
+
+    LblAppTitle As label.Label:
+        X: =20
+        Y: =30
+        Width: =500
+        Height: =34
+        Text: ="Control de Recursos"
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =20
+        FontWeight: =FontWeight.Bold
+
+    LblUser As label.Label:
+        X: =Parent.Width - 320
+        Y: =22
+        Width: =300
+        Height: =28
+        Text: =User().FullName
+        Color: =RGBA(255, 255, 255, 0.9)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        Align: =Align.Right
+
+    RctSubBar As rectangle.ManualInput:
+        X: =0
+        Y: =72
+        Width: =Parent.Width
+        Height: =36
+        Fill: =RGBA(15, 61, 115, 1)
+        BorderThickness: =0
+
+    LblSubBarText As label.Label:
+        X: =20
+        Y: =72
+        Width: =700
+        Height: =36
+        Text: ="Sistema de Gestion · Recursos de Idiomas"
+        Color: =RGBA(255, 255, 255, 0.7)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Semibold
+
+    LblSubBarDate As label.Label:
+        X: =Parent.Width - 320
+        Y: =72
+        Width: =300
+        Height: =36
+        Text: =Text(Today(), "[$-es-CO]dddd dd 'de' mmmm yyyy")
+        Color: =RGBA(247, 181, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Semibold
+        Align: =Align.Right
+
+    RctCard1 As rectangle.ManualInput:
+        X: =16
+        Y: =120
+        Width: =659
+        Height: =300
+        Fill: =RGBA(255, 255, 255, 1)
+        BorderColor: =RGBA(226, 232, 240, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+
+    RctCard1Bar As rectangle.ManualInput:
+        X: =16
+        Y: =120
+        Width: =6
+        Height: =300
+        Fill: =RGBA(26, 92, 168, 1)
+        BorderThickness: =0
+        RadiusTopLeft: =12
+        RadiusBottomLeft: =12
+
+    LblCard1Icon As label.Label:
+        X: =32
+        Y: =148
+        Width: =60
+        Height: =56
+        Text: ="?"
+        Fill: =RGBA(235, 243, 255, 1)
+        Size: =28
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle
+
+    LblCard1Emoji As label.Label:
+        X: =32
+        Y: =148
+        Width: =60
+        Height: =56
+        Text: ="I"
+        Color: =RGBA(26, 92, 168, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =22
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle
+
+    LblCard1Title As label.Label:
+        X: =104
+        Y: =148
+        Width: =555
+        Height: =36
+        Text: ="Inventario de Materiales"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =18
+        FontWeight: =FontWeight.Bold
+
+    LblCard1Desc As label.Label:
+        X: =104
+        Y: =186
+        Width: =555
+        Height: =44
+        Text: ="Consulta libros, equipos y recursos disponibles para docentes"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        Wrap: =true
+
+    RctCard1Div As rectangle.ManualInput:
+        X: =32
+        Y: =250
+        Width: =627
+        Height: =1
+        Fill: =RGBA(226, 232, 240, 1)
+        BorderThickness: =0
+
+    LblCard1Stats As label.Label:
+        X: =32
+        Y: =262
+        Width: =500
+        Height: =30
+        Text: =CountRows(gColInventario) & " articulos · " & CountIf(gColInventario, estado="Disponible") & " disponibles"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+
+    LblCard1Arrow As label.Label:
+        X: =647
+        Y: =262
+        Width: =22
+        Height: =30
+        Text: =">"
+        Color: =RGBA(26, 92, 168, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =18
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Center
+
+    BtnCard1 As button.Button:
+        X: =16
+        Y: =120
+        Width: =659
+        Height: =300
+        Text: =""
+        Fill: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(26, 92, 168, 0.04)
+        PressedFill: =RGBA(26, 92, 168, 0.08)
+        BorderColor: =RGBA(0, 0, 0, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        BorderThickness: =0
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        OnSelect: =Navigate(ScrInventario, ScreenTransition.Fade)
+
+    RctCard2 As rectangle.ManualInput:
+        X: =691
+        Y: =120
+        Width: =659
+        Height: =300
+        Fill: =RGBA(255, 255, 255, 1)
+        BorderColor: =RGBA(226, 232, 240, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+
+    RctCard2Bar As rectangle.ManualInput:
+        X: =691
+        Y: =120
+        Width: =6
+        Height: =300
+        Fill: =RGBA(247, 181, 0, 1)
+        BorderThickness: =0
+        RadiusTopLeft: =12
+        RadiusBottomLeft: =12
+
+    LblCard2Icon As label.Label:
+        X: =707
+        Y: =148
+        Width: =60
+        Height: =56
+        Text: ="?"
+        Fill: =RGBA(255, 248, 225, 1)
+        Size: =28
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle
+
+    LblCard2Emoji As label.Label:
+        X: =707
+        Y: =148
+        Width: =60
+        Height: =56
+        Text: ="P"
+        Color: =RGBA(204, 150, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =22
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle
+
+    LblCard2Title As label.Label:
+        X: =779
+        Y: =148
+        Width: =555
+        Height: =36
+        Text: ="Prestamos Activos"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =18
+        FontWeight: =FontWeight.Bold
+
+    LblCard2Desc As label.Label:
+        X: =779
+        Y: =186
+        Width: =555
+        Height: =44
+        Text: ="Gestiona prestamos de recursos y fechas de devolucion"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        Wrap: =true
+
+    RctCard2Div As rectangle.ManualInput:
+        X: =707
+        Y: =250
+        Width: =627
+        Height: =1
+        Fill: =RGBA(226, 232, 240, 1)
+        BorderThickness: =0
+
+    LblCard2Stats As label.Label:
+        X: =707
+        Y: =262
+        Width: =500
+        Height: =30
+        Text: =CountRows(gColPrestamos) & " prestamos · " & CountIf(gColPrestamos, estado="Vencido") & " vencidos"
+        Color: =If(CountIf(gColPrestamos, estado="Vencido")>0, RGBA(204, 150, 0, 1), RGBA(107, 112, 128, 1))
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+
+    LblCard2Arrow As label.Label:
+        X: =1322
+        Y: =262
+        Width: =22
+        Height: =30
+        Text: =">"
+        Color: =RGBA(247, 181, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =18
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Center
+
+    BtnCard2 As button.Button:
+        X: =691
+        Y: =120
+        Width: =659
+        Height: =300
+        Text: =""
+        Fill: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(247, 181, 0, 0.04)
+        PressedFill: =RGBA(247, 181, 0, 0.08)
+        BorderColor: =RGBA(0, 0, 0, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        BorderThickness: =0
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        OnSelect: =Navigate(ScrPrestamos, ScreenTransition.Fade)
+
+    RctCard3 As rectangle.ManualInput:
+        X: =16
+        Y: =432
+        Width: =659
+        Height: =300
+        Fill: =RGBA(255, 255, 255, 1)
+        BorderColor: =RGBA(226, 232, 240, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+
+    RctCard3Bar As rectangle.ManualInput:
+        X: =16
+        Y: =432
+        Width: =6
+        Height: =300
+        Fill: =RGBA(46, 123, 196, 1)
+        BorderThickness: =0
+        RadiusTopLeft: =12
+        RadiusBottomLeft: =12
+
+    LblCard3Icon As label.Label:
+        X: =32
+        Y: =460
+        Width: =60
+        Height: =56
+        Text: ="?"
+        Fill: =RGBA(235, 243, 255, 1)
+        Size: =28
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle
+
+    LblCard3Emoji As label.Label:
+        X: =32
+        Y: =460
+        Width: =60
+        Height: =56
+        Text: ="R"
+        Color: =RGBA(46, 123, 196, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =22
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle
+
+    LblCard3Title As label.Label:
+        X: =104
+        Y: =460
+        Width: =555
+        Height: =36
+        Text: ="Reservas de Sala"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =18
+        FontWeight: =FontWeight.Bold
+
+    LblCard3Desc As label.Label:
+        X: =104
+        Y: =498
+        Width: =555
+        Height: =44
+        Text: ="Programa y consulta reservaciones de salas y laboratorios"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        Wrap: =true
+
+    RctCard3Div As rectangle.ManualInput:
+        X: =32
+        Y: =558
+        Width: =627
+        Height: =1
+        Fill: =RGBA(226, 232, 240, 1)
+        BorderThickness: =0
+
+    LblCard3Stats As label.Label:
+        X: =32
+        Y: =570
+        Width: =500
+        Height: =30
+        Text: =CountRows(gColReservas) & " reservas · " & CountIf(gColReservas, estado="Activa") & " activas"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+
+    LblCard3Arrow As label.Label:
+        X: =647
+        Y: =570
+        Width: =22
+        Height: =30
+        Text: =">"
+        Color: =RGBA(46, 123, 196, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =18
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Center
+
+    BtnCard3 As button.Button:
+        X: =16
+        Y: =432
+        Width: =659
+        Height: =300
+        Text: =""
+        Fill: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(46, 123, 196, 0.04)
+        PressedFill: =RGBA(46, 123, 196, 0.08)
+        BorderColor: =RGBA(0, 0, 0, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        BorderThickness: =0
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        OnSelect: =Navigate(ScrReservas, ScreenTransition.Fade)
+
+    RctCard4 As rectangle.ManualInput:
+        X: =691
+        Y: =432
+        Width: =659
+        Height: =300
+        Fill: =RGBA(255, 255, 255, 1)
+        BorderColor: =RGBA(226, 232, 240, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+
+    RctCard4Bar As rectangle.ManualInput:
+        X: =691
+        Y: =432
+        Width: =6
+        Height: =300
+        Fill: =RGBA(26, 92, 168, 1)
+        BorderThickness: =0
+        RadiusTopLeft: =12
+        RadiusBottomLeft: =12
+
+    LblCard4Icon As label.Label:
+        X: =707
+        Y: =460
+        Width: =60
+        Height: =56
+        Text: ="?"
+        Fill: =RGBA(235, 243, 255, 1)
+        Size: =28
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle
+
+    LblCard4Emoji As label.Label:
+        X: =707
+        Y: =460
+        Width: =60
+        Height: =56
+        Text: ="E"
+        Color: =RGBA(26, 92, 168, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =22
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle
+
+    LblCard4Title As label.Label:
+        X: =779
+        Y: =460
+        Width: =555
+        Height: =36
+        Text: ="Reportes y Estadisticas"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =18
+        FontWeight: =FontWeight.Bold
+
+    LblCard4Desc As label.Label:
+        X: =779
+        Y: =498
+        Width: =555
+        Height: =44
+        Text: ="Visualiza estadisticas de uso de recursos por docente y categoria"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        Wrap: =true
+
+    RctCard4Div As rectangle.ManualInput:
+        X: =707
+        Y: =558
+        Width: =627
+        Height: =1
+        Fill: =RGBA(226, 232, 240, 1)
+        BorderThickness: =0
+
+    LblCard4Stats As label.Label:
+        X: =707
+        Y: =570
+        Width: =500
+        Height: =30
+        Text: ="Ver uso por articulo · semana · mes"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+
+    LblCard4Arrow As label.Label:
+        X: =1322
+        Y: =570
+        Width: =22
+        Height: =30
+        Text: =">"
+        Color: =RGBA(26, 92, 168, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =18
+        FontWeight: =FontWeight.Bold
+        Align: =Align.Center
+
+    BtnCard4 As button.Button:
+        X: =691
+        Y: =432
+        Width: =659
+        Height: =300
+        Text: =""
+        Fill: =RGBA(0, 0, 0, 0)
+        HoverFill: =RGBA(26, 92, 168, 0.04)
+        PressedFill: =RGBA(26, 92, 168, 0.08)
+        BorderColor: =RGBA(0, 0, 0, 0)
+        HoverBorderColor: =RGBA(0, 0, 0, 0)
+        PressedBorderColor: =RGBA(0, 0, 0, 0)
+        BorderThickness: =0
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        OnSelect: =Navigate(ScrReservas, ScreenTransition.Fade)
+
+    RctFooter As rectangle.ManualInput:
+        X: =0
+        Y: =740
+        Width: =Parent.Width
+        Height: =28
+        Fill: =RGBA(228, 238, 249, 1)
+        BorderThickness: =0
+
+    LblFooter As label.Label:
+        X: =0
+        Y: =740
+        Width: =Parent.Width
+        Height: =28
+        Text: ="Universidad EAFIT · Escuela de Idiomas · Control de Recursos"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =10
+        Align: =Align.Center
+        VerticalAlign: =VerticalAlign.Middle

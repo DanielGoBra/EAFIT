@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="EafitIdiomas" constructor="SemaforoPendientes" version="1.0.0"
+    display-name-key="Semáforo de Pendientes"
+    description-key="Tabla con indicador visual rojo/amarillo/verde de préstamos por vencer o vencidos"
+    control-type="standard">
+
+    <data-set name="prestamos" display-name-key="Préstamos">
+      <property-set name="numeroTransaccion"      display-name-key="# Transacción"       of-type="SingleLine.Text"      usage="bound" required="true"  />
+      <property-set name="material"               display-name-key="Material"            of-type="SingleLine.Text"      usage="bound" required="true"  />
+      <property-set name="docente"                display-name-key="Docente"             of-type="SingleLine.Text"      usage="bound" required="true"  />
+      <property-set name="fechaDevolucionEsperada" display-name-key="Devolución Esperada" of-type="DateAndTime.DateAndTime" usage="bound" required="true" />
+      <property-set name="estado"                 display-name-key="Estado"              of-type="SingleLine.Text"      usage="bound" required="true"  />
+    </data-set>
+
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/SemaforoPendientes.css" order="1" />
+    </resources>
+  </control>
+</manifest>

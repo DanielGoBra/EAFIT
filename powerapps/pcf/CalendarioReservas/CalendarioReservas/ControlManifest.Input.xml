@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="EafitIdiomas" constructor="CalendarioReservas" version="1.0.0"
+    display-name-key="Calendario de Reservas"
+    description-key="Calendario interactivo con bloques horarios para reservas de materiales EAFIT"
+    control-type="standard">
+
+    <data-set name="reservaciones" display-name-key="Reservaciones">
+      <property-set name="fecha"         display-name-key="Fecha"          of-type="DateAndTime.DateOnly" usage="bound" required="true"  />
+      <property-set name="bloqueHorario" display-name-key="Bloque Horario" of-type="SingleLine.Text"      usage="bound" required="true"  />
+      <property-set name="estado"        display-name-key="Estado"         of-type="SingleLine.Text"      usage="bound" required="true"  />
+      <property-set name="material"      display-name-key="Material"       of-type="SingleLine.Text"      usage="bound" required="false" />
+      <property-set name="docente"       display-name-key="Docente"        of-type="SingleLine.Text"      usage="bound" required="false" />
+    </data-set>
+
+    <property name="selectedDate"  display-name-key="Fecha Seleccionada"  of-type="SingleLine.Text" usage="output" />
+    <property name="selectedBloque" display-name-key="Bloque Seleccionado" of-type="SingleLine.Text" usage="output" />
+
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/CalendarioReservas.css" order="1" />
+    </resources>
+  </control>
+</manifest>

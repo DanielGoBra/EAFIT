@@ -1,0 +1,78 @@
+ScrAyuda As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+
+    RctHdrAyu As rectangle.ManualInput:
+        Fill: =RGBA(15, 61, 115, 1)
+        Height: =72
+        Width: =Parent.Width
+
+    RctBackAyu As rectangle.ManualInput:
+        Fill: =RGBA(46, 123, 196, 1)
+        Height: =40
+        OnSelect: =Navigate(Screen1,ScreenTransition.None)
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =44
+        X: =4
+        Y: =16
+
+    LblBackAyu As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        OnSelect: =Navigate(Screen1,ScreenTransition.None)
+        Size: =18
+        Text: ="<-"
+        Width: =44
+        X: =4
+        Y: =16
+
+    LblTitleAyu As label.Label:
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =72
+        Size: =17
+        Text: ="Manual de Usuario"
+        Width: =Parent.Width-68
+        X: =58
+
+    RctAccentAyu As rectangle.ManualInput:
+        Fill: =RGBA(247, 181, 0, 1)
+        Height: =3
+        Width: =Parent.Width
+        Y: =72
+
+    RctHelpCard As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =Parent.Height - 111
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =91
+
+    LblHelpDocente As label.Label:
+        Color: =RGBA(26, 39, 66, 1)
+        Height: =Parent.Height - 143
+        Text: ="RESERVAR MATERIAL" & Char(10) & "1. Ve a Reservas y presiona +." & Char(10) & "2. Ingresa el nombre exacto del material, la fecha y el bloque." & Char(10) & "3. Confirma solo si el sistema no reporta dano ni cruce." & Char(10) & Char(10) & "MIS PRESTAMOS ACTIVOS" & Char(10) & "Consulta en Prestamos los materiales retirados y si estan activos o vencidos." & Char(10) & Char(10) & "CANCELAR RESERVA" & Char(10) & "La cancelacion solo esta disponible hasta 30 minutos antes del inicio." & Char(10) & Char(10) & "REGLA CLAVE" & Char(10) & "Los domingos no tienen servicio y los materiales dañados no pueden reservarse."
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =gRol = "Docente" || gRol = "Invitado"
+        Width: =Parent.Width - 72
+        X: =36
+        Y: =107
+
+    LblHelpAdmin As label.Label:
+        Color: =RGBA(26, 39, 66, 1)
+        Height: =Parent.Height - 143
+        Text: ="REGISTRAR RETIRO" & Char(10) & "1. Ve a Prestamos y usa el numero de reserva activa." & Char(10) & "2. Valida docente, material y estado inicial." & Char(10) & "3. Confirma el retiro para crear la transaccion." & Char(10) & Char(10) & "REGISTRAR DEVOLUCION" & Char(10) & "Abre el prestamo activo, define estado final y guarda observaciones." & Char(10) & Char(10) & "ALERTAS" & Char(10) & "ScrAlertas muestra vencidos, por vencer y en tiempo." & Char(10) & Char(10) & "REPORTES" & Char(10) & "ScrReportes usa fechas reales para uso por docente, uso por material, retrasos y danos."
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =gRol = "Admin" || gRol = "SuperAdmin"
+        Width: =Parent.Width - 72
+        X: =36
+        Y: =107
+

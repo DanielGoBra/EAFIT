@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="EafitIdiomas" constructor="GraficosReportes" version="1.0.0"
+    display-name-key="Gráficos de Reportes"
+    description-key="Gráficos de barras para reportes de uso de materiales y docentes EAFIT"
+    control-type="standard">
+
+    <data-set name="reporteData" display-name-key="Datos de Reporte">
+      <property-set name="etiqueta"  display-name-key="Etiqueta"  of-type="SingleLine.Text" usage="bound" required="true"  />
+      <property-set name="valor"     display-name-key="Valor"     of-type="Whole.None"      usage="bound" required="true"  />
+      <property-set name="categoria" display-name-key="Categoría" of-type="SingleLine.Text" usage="bound" required="false" />
+    </data-set>
+
+    <property name="titulo"       display-name-key="Título del Gráfico" of-type="SingleLine.Text" usage="input" />
+    <property name="colorPrimario" display-name-key="Color Principal"   of-type="SingleLine.Text" usage="input" default-value="#1A5CA8" />
+
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/GraficosReportes.css" order="1" />
+    </resources>
+  </control>
+</manifest>

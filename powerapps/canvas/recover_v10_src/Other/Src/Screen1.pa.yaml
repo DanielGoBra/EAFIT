@@ -1,0 +1,665 @@
+# ************************************************************************************************
+# Warning: YAML source code for Canvas Apps should only be used to review changes made within Power Apps Studio and for minor edits (Preview).
+# Use the maker portal to create and edit your Power Apps.
+# 
+# The schema file for Canvas Apps is available at https://go.microsoft.com/fwlink/?linkid=2304907
+# 
+# For more information, visit https://go.microsoft.com/fwlink/?linkid=2292623
+# ************************************************************************************************
+Screens:
+  Screen1:
+    Properties:
+      Fill: =RGBA(238, 244, 252, 1)
+      LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+    Children:
+      - RctStatsAprvS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =36
+            Visible: =(gRol = "Admin" || gRol = "SuperAdmin") && CountIf(Reservas,Estado="Aprobada")>0
+            Width: =(Parent.Width - 40) * CountIf(Reservas,Estado="Aprobada") / Max(CountRows(Reservas),1)
+            X: =20 + (Parent.Width - 40) * CountIf(Reservas,Estado="Pendiente") / Max(CountRows(Reservas),1)
+            Y: =Parent.Height - 80 - 44
+      - LblAlertBtnS1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =60
+            OnSelect: =Navigate(ScrAlertas,ScreenTransition.Slide)
+            Text: ="Ver →"
+            Visible: =gRol = "Admin" || gRol = "SuperAdmin"
+            Width: =80
+            X: =Parent.Width - 100
+            Y: =Parent.Height - 80
+      - LblLoanRemBtnS1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =60
+            OnSelect: =Navigate(ScrPrestamos,ScreenTransition.Slide)
+            Text: ="Ver →"
+            Visible: =gRol = "Docente" && CountIf(Prestamos,Usuario=User().FullName,Estado="Activo")>0
+            Width: =80
+            X: =Parent.Width - 100
+            Y: =Parent.Height - 80
+      - RctHdrS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(15, 61, 115, 1)
+            Height: =72
+            Width: =Parent.Width
+      - RctBtn2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =44
+            OnSelect: =Navigate(ScrRecursos)
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95 + (Parent.Height - 207) / 2 - 44
+      - LblBtn2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            OnSelect: =Navigate(ScrRecursos)
+            Size: =14
+            Text: ="Ver →"
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95 + (Parent.Height - 207) / 2 - 44
+      - RctCard4:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =(Parent.Height - 207) / 2
+            OnSelect: =Navigate(ScrPrestamos)
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16
+      - RctA4:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =5
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16
+      - LblTitle4:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =44
+            OnSelect: =Navigate(ScrPrestamos)
+            Size: =17
+            Text: ="Préstamos"
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16+14
+      - LblCount4:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(247, 181, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            Size: =36
+            Text: =Text(CountIf(Prestamos,Estado="Activo"))
+            Width: =(Parent.Width - 40 - 16) / 2-32
+            X: =20+(Parent.Width - 40 - 16) / 2+16+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16+64
+      - LblDesc4:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(107, 112, 128, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            Height: =22
+            Size: =12
+            Text: ="Artículos en uso"
+            Width: =(Parent.Width - 40 - 16) / 2-32
+            X: =20+(Parent.Width - 40 - 16) / 2+16+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16+118
+      - RctBtn4:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =44
+            OnSelect: =Navigate(ScrPrestamos)
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16 + (Parent.Height - 207) / 2 - 44
+      - LblBtn4:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            OnSelect: =Navigate(ScrPrestamos)
+            Size: =14
+            Text: ="Ver →"
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16 + (Parent.Height - 207) / 2 - 44
+      - RctStatsBarBgS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(229, 231, 235, 1)
+            Height: =36
+            Visible: =(gRol = "Admin" || gRol = "SuperAdmin") && CountRows(Reservas)>0
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =Parent.Height - 80 - 44
+      - RctStatsPendS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =36
+            Visible: =(gRol = "Admin" || gRol = "SuperAdmin") && CountIf(Reservas,Estado="Pendiente")>0
+            Width: =(Parent.Width - 40) * CountIf(Reservas,Estado="Pendiente") / Max(CountRows(Reservas),1)
+            X: =20
+            Y: =Parent.Height - 80 - 44
+      - RctAlertS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =If(CountIf(Prestamos,Estado="Activo",Not(IsBlank(FechaFin)),FechaFin<Text(Today(),"yyyy-mm-dd"))>0,RGBA(204, 150, 0, 1),RGBA(26, 92, 168, 1))
+            BorderThickness: =2
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =60
+            OnSelect: =Navigate(ScrAlertas,ScreenTransition.Slide)
+            Visible: =gRol = "Admin" || gRol = "SuperAdmin"
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =Parent.Height - 80
+      - RctLoanRemS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =If(CountIf(Prestamos,Usuario=User().FullName,Estado="Activo",Not(IsBlank(FechaFin)),FechaFin<Text(Today(),"yyyy-mm-dd"))>0,RGBA(204, 150, 0, 1),RGBA(26, 92, 168, 1))
+            BorderThickness: =2
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =60
+            OnSelect: =Navigate(ScrPrestamos,ScreenTransition.Slide)
+            Visible: =gRol = "Docente" && CountIf(Prestamos,Usuario=User().FullName,Estado="Activo")>0
+            Width: =Parent.Width - 40
+            X: =20
+            Y: =Parent.Height - 80
+      - LblHdrS1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =72
+            Size: =17
+            Text: ="Universidad EAFIT  ·  Control de Idiomas"
+            Width: =Parent.Width - 320
+            X: =20
+      - RctBtn1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =44
+            OnSelect: =Navigate(ScrCocina)
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95 + (Parent.Height - 207) / 2 - 44
+      - LblBtn1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            OnSelect: =Navigate(ScrCocina)
+            Size: =14
+            Text: ="Ver →"
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95 + (Parent.Height - 207) / 2 - 44
+      - RctCard3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =(Parent.Height - 207) / 2
+            OnSelect: =Navigate(ScrReservas)
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95 + (Parent.Height - 207) / 2 + 16
+      - RctA3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =5
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95 + (Parent.Height - 207) / 2 + 16
+      - LblTitle3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =44
+            OnSelect: =Navigate(ScrReservas)
+            Size: =17
+            Text: ="Reservas"
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95 + (Parent.Height - 207) / 2 + 16+14
+      - RctBtn3:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(26, 92, 168, 1)
+            Height: =44
+            OnSelect: =Navigate(ScrReservas)
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95 + (Parent.Height - 207) / 2 + 16 + (Parent.Height - 207) / 2 - 44
+      - LblBtn3:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(255, 255, 255, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =44
+            OnSelect: =Navigate(ScrReservas)
+            Size: =14
+            Text: ="Ver →"
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95 + (Parent.Height - 207) / 2 + 16 + (Parent.Height - 207) / 2 - 44
+      - LblStatsLegendS1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 39, 66, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =36
+            Size: =11
+            Text: |-
+              ="🟡 " & CountIf(Reservas,Estado="Pendiente") & " Pend.  🟦 " & CountIf(Reservas,Estado="Aprobada") & " Aprob.  ⬜ " & CountIf(Reservas,Estado="Denegada") & " Deneg."
+            Visible: =(gRol = "Admin" || gRol = "SuperAdmin") && CountRows(Reservas)>0
+            Width: =Parent.Width - 40 - 16
+            X: =28
+            Y: =Parent.Height - 80 - 44
+      - LblAlertTxtS1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =60
+            OnSelect: =Navigate(ScrAlertas,ScreenTransition.Slide)
+            Text: ="⚠️  Alertas de pendientes  (" & CountIf(Prestamos,Estado="Activo") & " activos)"
+            Visible: =gRol = "Admin" || gRol = "SuperAdmin"
+            Width: =Parent.Width - 40 - 100
+            X: =20+14
+            Y: =Parent.Height - 80
+      - LblLoanRemTxtS1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =If(CountIf(Prestamos,Usuario=User().FullName,Estado="Activo",Not(IsBlank(FechaFin)),FechaFin<Text(Today(),"yyyy-mm-dd"))>0,RGBA(204, 150, 0, 1),RGBA(15, 61, 115, 1))
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =60
+            OnSelect: =Navigate(ScrPrestamos,ScreenTransition.Slide)
+            Text: |-
+              =If(CountIf(Prestamos,Usuario=User().FullName,Estado="Activo",Not(IsBlank(FechaFin)),FechaFin<Text(Today(),"yyyy-mm-dd"))>0,"⚠️  Tienes " & CountIf(Prestamos,Usuario=User().FullName,Estado="Activo",Not(IsBlank(FechaFin)),FechaFin<Text(Today(),"yyyy-mm-dd")) & " préstamo(s) vencido(s)","📦  Tienes " & CountIf(Prestamos,Usuario=User().FullName,Estado="Activo") & " préstamo(s) activo(s)")
+            Visible: =gRol = "Docente" && CountIf(Prestamos,Usuario=User().FullName,Estado="Activo")>0
+            Width: =Parent.Width - 40 - 100
+            X: =20+14
+            Y: =Parent.Height - 80
+      - LblCount3:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(247, 181, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            Size: =36
+            Text: =Text(CountRows(Reservas))
+            Width: =(Parent.Width - 40 - 16) / 2-32
+            X: =20+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16+64
+      - LblDesc3:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(107, 112, 128, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            Height: =22
+            Size: =12
+            Text: ="Solicitudes activas"
+            Width: =(Parent.Width - 40 - 16) / 2-32
+            X: =20+16
+            Y: =95 + (Parent.Height - 207) / 2 + 16+118
+      - RctRptBtnS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =40
+            OnSelect: =Navigate(ScrReportes,ScreenTransition.Slide)
+            Visible: =gRol = "Admin" || gRol = "SuperAdmin"
+            Width: =44
+            X: =Parent.Width - 222
+            Y: =16
+      - LblRptBtnS1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(71, 69, 64, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(ScrReportes,ScreenTransition.Slide)
+            Size: =20
+            Text: |-
+              ="📊"
+            Visible: =gRol = "Admin" || gRol = "SuperAdmin"
+            Width: =44
+            X: =Parent.Width - 222
+            Y: =16
+      - RctAiBtnS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =40
+            OnSelect: =Navigate(ScrAiChat,ScreenTransition.Slide)
+            Width: =44
+            X: =Parent.Width - 168
+            Y: =16
+      - LblAiBtnS1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(71, 69, 64, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(ScrAiChat,ScreenTransition.Slide)
+            Size: =20
+            Text: |-
+              ="🤖"
+            Width: =44
+            X: =Parent.Width - 168
+            Y: =16
+      - RctHelpBtnS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =40
+            OnSelect: =Navigate(ScrAyuda,ScreenTransition.Slide)
+            Width: =44
+            X: =Parent.Width - 116
+            Y: =16
+      - LblHelpBtnS1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(71, 69, 64, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(ScrAyuda,ScreenTransition.Slide)
+            Size: =20
+            Text: ="❓"
+            Width: =44
+            X: =Parent.Width - 116
+            Y: =16
+      - RctAdminBtnS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =40
+            OnSelect: =Navigate(ScrUsuarios,ScreenTransition.Slide)
+            Visible: =gRol = "SuperAdmin"
+            Width: =44
+            X: =Parent.Width - 64
+            Y: =16
+      - LblAdminBtnS1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(71, 69, 64, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            OnSelect: =Navigate(ScrUsuarios,ScreenTransition.Slide)
+            Size: =20
+            Text: ="⚙️"
+            Visible: =gRol = "SuperAdmin"
+            Width: =44
+            X: =Parent.Width - 64
+            Y: =16
+      - RctRolBadgeS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(220, 232, 248, 1)
+            Height: =32
+            Width: =80
+            X: =Parent.Width - 310
+            Y: =20
+      - LblRolBadgeS1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(15, 61, 115, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Semibold
+            Height: =32
+            Size: =11
+            Text: =gRol
+            Width: =80
+            X: =Parent.Width - 310
+            Y: =20
+      - RctAccentS1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =3
+            Width: =Parent.Width
+            Y: =72
+      - RctCard2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =(Parent.Height - 207) / 2
+            OnSelect: =Navigate(ScrRecursos)
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95
+      - RctA2:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =5
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95
+      - RctCard1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(203, 213, 225, 1)
+            BorderThickness: =1
+            Fill: =RGBA(255, 255, 255, 1)
+            Height: =(Parent.Height - 207) / 2
+            OnSelect: =Navigate(ScrCocina)
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95
+      - RctA1:
+          Control: Rectangle@2.3.0
+          Properties:
+            BorderColor: =RGBA(0, 0, 255, 1)
+            Fill: =RGBA(247, 181, 0, 1)
+            Height: =5
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95
+      - LblTitle2:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =44
+            OnSelect: =Navigate(ScrRecursos)
+            Size: =17
+            Text: ="Recursos"
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20+(Parent.Width - 40 - 16) / 2+16
+            Y: =95+14
+      - LblTitle1:
+          Control: Label@2.5.1
+          Properties:
+            Align: =Align.Center
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(26, 92, 168, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =44
+            OnSelect: =Navigate(ScrCocina)
+            Size: =17
+            Text: ="Cocina"
+            Width: =(Parent.Width - 40 - 16) / 2
+            X: =20
+            Y: =95+14
+      - LblCount2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(247, 181, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            Size: =36
+            Text: =Text(CountRows(Recursos))
+            Width: =(Parent.Width - 40 - 16) / 2-32
+            X: =20+(Parent.Width - 40 - 16) / 2+16+16
+            Y: =95+64
+      - LblCount1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(247, 181, 0, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            FontWeight: =FontWeight.Bold
+            Height: =52
+            Size: =36
+            Text: =Text(CountRows(Cocina))
+            Width: =(Parent.Width - 40 - 16) / 2-32
+            X: =20+16
+            Y: =95+64
+      - LblDesc2:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(107, 112, 128, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            Height: =22
+            Size: =12
+            Text: ="Recursos registrados"
+            Width: =(Parent.Width - 40 - 16) / 2-32
+            X: =20+(Parent.Width - 40 - 16) / 2+16+16
+            Y: =95+118
+      - LblDesc1:
+          Control: Label@2.5.1
+          Properties:
+            BorderColor: =RGBA(0, 0, 0, 1)
+            Color: =RGBA(107, 112, 128, 1)
+            DisabledColor: =RGBA(186, 186, 186, 1)
+            DisplayMode: =DisplayMode.View
+            Font: =Font.'Open Sans'
+            Height: =22
+            Size: =12
+            Text: ="Artículos registrados"
+            Width: =(Parent.Width - 40 - 16) / 2-32
+            X: =20+16
+            Y: =95+118

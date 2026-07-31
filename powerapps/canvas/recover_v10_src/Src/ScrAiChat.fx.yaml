@@ -1,0 +1,134 @@
+ScrAiChat As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+    LoadingSpinnerColor: =RGBA(0, 120, 212, 1)
+
+    RctHdrChat As rectangle.ManualInput:
+        Fill: =RGBA(15, 61, 115, 1)
+        Height: =72
+        Width: =Parent.Width
+
+    RctBackChat As rectangle.ManualInput:
+        Fill: =RGBA(46, 123, 196, 1)
+        Height: =40
+        OnSelect: =Navigate(Screen1)
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =44
+        X: =4
+        Y: =16
+
+    LblBackChat As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        OnSelect: =Navigate(Screen1)
+        Size: =18
+        Text: ="<-"
+        Width: =44
+        X: =4
+        Y: =16
+
+    LblTitleChat As label.Label:
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =72
+        Size: =17
+        Text: ="Asistente del MVP"
+        Width: =Parent.Width - 68
+        X: =58
+
+    RctAccentChat As rectangle.ManualInput:
+        Fill: =RGBA(247, 181, 0, 1)
+        Height: =3
+        Width: =Parent.Width
+        Y: =72
+
+    LblChatHelp As label.Label:
+        Color: =RGBA(26, 39, 66, 1)
+        Fill: =RGBA(255, 248, 220, 1)
+        PaddingLeft: =12
+        PaddingRight: =12
+        Size: =11
+        Text: ="Consulta reservas, prestamos, materiales, vencidos o disponibilidad."
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =84
+
+    RctChatBg As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =Parent.Height - 208
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =132
+
+    LblChatHistory As label.Label:
+        Color: =RGBA(26, 39, 66, 1)
+        Height: =Parent.Height - 232
+        PaddingBottom: =8
+        PaddingLeft: =4
+        PaddingRight: =4
+        Size: =12
+        Text: |-
+            =Concat(colChat,If(role="bot","BOT: ","TU: ") & msg & Char(10) & "----------------" & Char(10),"")
+        VerticalAlign: =VerticalAlign.Top
+        Width: =Parent.Width - 56
+        X: =28
+        Y: =144
+
+    RctInputBar As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =48
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =Parent.Width - 32
+        X: =16
+        Y: =Parent.Height - 64
+
+    TxtChatInput As text.TextInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        Default: =""
+        Fill: =RGBA(243, 244, 246, 1)
+        Height: =32
+        HintText: ="Escribe tu pregunta..."
+        PaddingLeft: =14
+        PaddingRight: =14
+        Width: =Parent.Width - 112
+        X: =28
+        Y: =Parent.Height - 56
+
+    RctSendBtn As rectangle.ManualInput:
+        Fill: =RGBA(26, 92, 168, 1)
+        Height: =36
+        OnSelect: |-
+            =If(Len(Trim(TxtChatInput.Text))>0,With({_q:Lower(Trim(TxtChatInput.Text))},Collect(colChat,{role:"user",msg:Trim(TxtChatInput.Text)});Collect(colChat,{role:"bot",msg:If("reserva" in _q,"Reservas activas: " & CountIf(Reservas,Estado="Activa") & ". Usa Mis reservas para ver detalle y cancelar a tiempo.","prestamo" in _q || "prestamo" in Substitute(_q,"é","e"),"Prestamos abiertos: " & CountIf(Prestamos,Estado<>"Devuelto") & ". Los vencidos actuales son " & CountIf(Prestamos,Estado="Vencido" || (Estado="Activo" && !IsBlank(FechaDevolucionEsperada) && DateTimeValue(FechaDevolucionEsperada)<Now())) & ".","cocina" in _q,"Inventario cocina: " & CountRows(Cocina) & " elementos sincronizados.","recurso" in _q || "material" in _q || "inventario" in _q,"Inventario total: " & CountRows(colMateriales) & " materiales. Disponibles ahora: " & CountIf(colMateriales,CantidadDisponible>0 && EstadoNormalizado<>"Dañado") & ".","vencido" in _q || "retraso" in _q,"Prestamos vencidos: " & CountIf(Prestamos,Estado="Vencido" || (Estado="Activo" && !IsBlank(FechaDevolucionEsperada) && DateTimeValue(FechaDevolucionEsperada)<Now())) & ". Revisa Alertas para priorizarlos.","disponible" in _q || "bloque" in _q,"Los bloques habilitados estan en Reservas: 5 de lunes a viernes y 4 el sabado. Domingo no tiene servicio.","hola" in _q || "buenos" in _q,"Hola. Puedo ayudarte a validar reservas, prestamos e inventario del MVP.","Puedo responder preguntas del MVP sobre reservas, prestamos, alertas e inventario.")});Reset(TxtChatInput)))
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =40
+        X: =Parent.Width - 72
+        Y: =Parent.Height - 58
+
+    LblSendIcon As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        Height: =36
+        OnSelect: |-
+            =If(Len(Trim(TxtChatInput.Text))>0,With({_q:Lower(Trim(TxtChatInput.Text))},Collect(colChat,{role:"user",msg:Trim(TxtChatInput.Text)});Collect(colChat,{role:"bot",msg:If("reserva" in _q,"Reservas activas: " & CountIf(Reservas,Estado="Activa") & ". Usa Mis reservas para ver detalle y cancelar a tiempo.","prestamo" in _q || "prestamo" in Substitute(_q,"é","e"),"Prestamos abiertos: " & CountIf(Prestamos,Estado<>"Devuelto") & ". Los vencidos actuales son " & CountIf(Prestamos,Estado="Vencido" || (Estado="Activo" && !IsBlank(FechaDevolucionEsperada) && DateTimeValue(FechaDevolucionEsperada)<Now())) & ".","cocina" in _q,"Inventario cocina: " & CountRows(Cocina) & " elementos sincronizados.","recurso" in _q || "material" in _q || "inventario" in _q,"Inventario total: " & CountRows(colMateriales) & " materiales. Disponibles ahora: " & CountIf(colMateriales,CantidadDisponible>0 && EstadoNormalizado<>"Dañado") & ".","vencido" in _q || "retraso" in _q,"Prestamos vencidos: " & CountIf(Prestamos,Estado="Vencido" || (Estado="Activo" && !IsBlank(FechaDevolucionEsperada) && DateTimeValue(FechaDevolucionEsperada)<Now())) & ". Revisa Alertas para priorizarlos.","disponible" in _q || "bloque" in _q,"Los bloques habilitados estan en Reservas: 5 de lunes a viernes y 4 el sabado. Domingo no tiene servicio.","hola" in _q || "buenos" in _q,"Hola. Puedo ayudarte a validar reservas, prestamos e inventario del MVP.","Puedo responder preguntas del MVP sobre reservas, prestamos, alertas e inventario.")});Reset(TxtChatInput)))
+        Size: =16
+        Text: =">"
+        Width: =40
+        X: =Parent.Width - 72
+        Y: =Parent.Height - 58
+

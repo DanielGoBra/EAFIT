@@ -1,0 +1,376 @@
+ScrItemFormUsuario As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+    OnVisible: =If(gRol<>"SuperAdmin",Notify("Solo SuperAdmin puede editar usuarios.",NotificationType.Error);Navigate(Screen1,ScreenTransition.None),Concurrent(Set(gRolEdit,If(IsBlank(gItemEdit),"Docente",If(IsBlank(gItemEdit.Rol),"Docente",gItemEdit.Rol))),Set(gActivoUsr,If(IsBlank(gItemEdit),"Activo",If(IsBlank(gItemEdit.Activo),"Activo",gItemEdit.Activo)))))
+
+    RctHdrFUsr As rectangle.ManualInput:
+        Fill: =RGBA(15, 61, 115, 1)
+        Height: =72
+        Width: =Parent.Width
+
+    RctBackFUsr As rectangle.ManualInput:
+        Fill: =RGBA(46, 123, 196, 1)
+        Height: =40
+        OnSelect: =Set(gItemEdit,Blank());Navigate(ScrUsuarios,ScreenTransition.None)
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =44
+        X: =4
+        Y: =16
+
+    LblBackFUsr As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        OnSelect: =Set(gItemEdit,Blank());Navigate(ScrUsuarios,ScreenTransition.None)
+        Size: =22
+        Text: ="←"
+        Width: =44
+        X: =4
+        Y: =16
+
+    LblTitleFUsr As label.Label:
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =72
+        Size: =16
+        Text: =If(IsBlank(gItemEdit),"Nuevo usuario","Editar usuario")
+        Width: =Parent.Width - 68
+        X: =58
+
+    RctAccentFUsr As rectangle.ManualInput:
+        Fill: =RGBA(247, 181, 0, 1)
+        Height: =3
+        Width: =Parent.Width
+        Y: =72
+
+    LblFFUsr0 As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =22
+        Size: =12
+        Text: ="Nombre *"
+        Width: =Parent.Width-40
+        X: =20
+        Y: =87
+
+    TxtFUsrNombre As text.TextInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        Default: =If(IsBlank(gItemEdit),"",gItemEdit.Nombre)
+        Height: =44
+        PaddingLeft: =10
+        PaddingRight: =10
+        Width: =Parent.Width-40
+        X: =20
+        Y: =109
+
+    LblFFUsr1 As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =22
+        Size: =12
+        Text: ="Email *"
+        Width: =Parent.Width-40
+        X: =20
+        Y: =167
+
+    TxtFUsrEmail As text.TextInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        Default: =If(IsBlank(gItemEdit),"",gItemEdit.Email)
+        Height: =44
+        PaddingLeft: =10
+        PaddingRight: =10
+        Width: =Parent.Width-40
+        X: =20
+        Y: =189
+
+    LblRolTitFUsr As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =22
+        Size: =12
+        Text: ="Rol"
+        Width: =Parent.Width-40
+        X: =20
+        Y: =247
+
+    RctRolSuperAdminFUsr As rectangle.ManualInput:
+        Fill: =If(gRolEdit="SuperAdmin",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gRolEdit,"SuperAdmin")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 48) / 2
+        X: =20
+        Y: =273
+
+    LblRolSuperAdminFUsr As label.Label:
+        Align: =Align.Center
+        Color: =If(gRolEdit="SuperAdmin",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gRolEdit,"SuperAdmin")
+        Size: =11
+        Text: ="SuperAdmin"
+        Width: =(Parent.Width - 48) / 2
+        X: =20
+        Y: =273
+
+    RctRolAdminFUsr As rectangle.ManualInput:
+        Fill: =If(gRolEdit="Admin",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gRolEdit,"Admin")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 48) / 2
+        X: =20+(Parent.Width-48)/2+8
+        Y: =273
+
+    LblRolAdminFUsr As label.Label:
+        Align: =Align.Center
+        Color: =If(gRolEdit="Admin",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gRolEdit,"Admin")
+        Size: =11
+        Text: ="Admin"
+        Width: =(Parent.Width - 48) / 2
+        X: =20+(Parent.Width-48)/2+8
+        Y: =273
+
+    RctRolDocenteFUsr As rectangle.ManualInput:
+        Fill: =If(gRolEdit="Docente",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gRolEdit,"Docente")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 48) / 2
+        X: =20
+        Y: =321
+
+    LblRolDocenteFUsr As label.Label:
+        Align: =Align.Center
+        Color: =If(gRolEdit="Docente",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gRolEdit,"Docente")
+        Size: =11
+        Text: ="Docente"
+        Width: =(Parent.Width - 48) / 2
+        X: =20
+        Y: =321
+
+    RctRolInvitadoFUsr As rectangle.ManualInput:
+        Fill: =If(gRolEdit="Invitado",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gRolEdit,"Invitado")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 48) / 2
+        X: =20+(Parent.Width-48)/2+8
+        Y: =321
+
+    LblRolInvitadoFUsr As label.Label:
+        Align: =Align.Center
+        Color: =If(gRolEdit="Invitado",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gRolEdit,"Invitado")
+        Size: =11
+        Text: ="Invitado"
+        Width: =(Parent.Width - 48) / 2
+        X: =20+(Parent.Width-48)/2+8
+        Y: =321
+
+    LblActivoTitFUsr As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =22
+        Size: =12
+        Text: ="Estado del usuario"
+        Width: =Parent.Width-40
+        X: =20
+        Y: =375
+
+    RctActActivoFUsr As rectangle.ManualInput:
+        Fill: =If(gActivoUsr="Activo",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gActivoUsr,"Activo")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 48) / 2
+        X: =20
+        Y: =401
+
+    LblActActivoFUsr As label.Label:
+        Align: =Align.Center
+        Color: =If(gActivoUsr="Activo",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gActivoUsr,"Activo")
+        Size: =12
+        Text: ="Activo"
+        Width: =(Parent.Width - 48) / 2
+        X: =20
+        Y: =401
+
+    RctActInactivoFUsr As rectangle.ManualInput:
+        Fill: =If(gActivoUsr="Inactivo",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gActivoUsr,"Inactivo")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 48) / 2
+        X: =20+(Parent.Width-48)/2+8
+        Y: =401
+
+    LblActInactivoFUsr As label.Label:
+        Align: =Align.Center
+        Color: =If(gActivoUsr="Inactivo",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gActivoUsr,"Inactivo")
+        Size: =12
+        Text: ="Inactivo"
+        Width: =(Parent.Width - 48) / 2
+        X: =20+(Parent.Width-48)/2+8
+        Y: =401
+
+    RctSaveFUsr As rectangle.ManualInput:
+        Fill: =RGBA(26, 92, 168, 1)
+        Height: =44
+        OnSelect: |-
+            =If(IsBlank(Trim(TxtFUsrNombre.Text))||IsBlank(Trim(TxtFUsrEmail.Text)),Notify("Nombre y Email son obligatorios",NotificationType.Error),IfError(Patch(Usuarios,If(IsBlank(gItemEdit),Defaults(Usuarios),gItemEdit),{Nombre:TxtFUsrNombre.Text,Email:TxtFUsrEmail.Text,Rol:gRolEdit,Activo:gActivoUsr});Refresh(Usuarios);Set(gItemEdit,Blank());Notify("Usuario guardado",NotificationType.Success);Navigate(ScrUsuarios,ScreenTransition.None),Notify("No se pudo guardar el usuario. Revisa la conexión a Excel.",NotificationType.Error)))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =Parent.Width-40
+        X: =20
+        Y: =455
+
+    LblSaveFUsr As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =44
+        OnSelect: |-
+            =If(IsBlank(Trim(TxtFUsrNombre.Text))||IsBlank(Trim(TxtFUsrEmail.Text)),Notify("Nombre y Email son obligatorios",NotificationType.Error),IfError(Patch(Usuarios,If(IsBlank(gItemEdit),Defaults(Usuarios),gItemEdit),{Nombre:TxtFUsrNombre.Text,Email:TxtFUsrEmail.Text,Rol:gRolEdit,Activo:gActivoUsr});Refresh(Usuarios);Set(gItemEdit,Blank());Notify("Usuario guardado",NotificationType.Success);Navigate(ScrUsuarios,ScreenTransition.None),Notify("No se pudo guardar el usuario. Revisa la conexión a Excel.",NotificationType.Error)))
+        Size: =15
+        Text: ="Guardar usuario"
+        Width: =Parent.Width-40
+        X: =20
+        Y: =455
+
+    RctDelFUsr As rectangle.ManualInput:
+        Fill: =RGBA(8, 32, 70, 1)
+        Height: =44
+        OnSelect: =Set(gConfirmDel,true)
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Visible: =!IsBlank(gItemEdit)
+        Width: =Parent.Width-40
+        X: =20
+        Y: =511
+
+    LblDelFUsr As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(247, 181, 0, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =44
+        OnSelect: =Set(gConfirmDel,true)
+        Text: ="Eliminar usuario"
+        Visible: =!IsBlank(gItemEdit)
+        Width: =Parent.Width-40
+        X: =20
+        Y: =511
+
+    RctFDelOvlFUsr As rectangle.ManualInput:
+        Fill: =RGBA(0, 0, 0, 0.55)
+        Height: =Parent.Height
+        Visible: =gConfirmDel
+        Width: =Parent.Width
+
+    RctFDelCardFUsr As rectangle.ManualInput:
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =180
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Visible: =gConfirmDel
+        Width: =310
+        X: =(Parent.Width-310)/2
+        Y: =(Parent.Height-180)/2
+
+    LblFDelMsgFUsr As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(26, 39, 66, 1)
+        Height: =72
+        PaddingTop: =8
+        Size: =13
+        Text: ="¿Eliminar este elemento?" & Char(10) & "Esta acción no se puede deshacer."
+        VerticalAlign: =VerticalAlign.Top
+        Visible: =gConfirmDel
+        Width: =278
+        X: =(Parent.Width-278)/2
+        Y: =(Parent.Height-180)/2+16
+
+    RctFDelYesFUsr As rectangle.ManualInput:
+        Fill: =RGBA(8, 32, 70, 1)
+        Height: =40
+        OnSelect: =Remove(Usuarios,gItemEdit);Set(gConfirmDel,false);Navigate(ScrUsuarios,ScreenTransition.None)
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Visible: =gConfirmDel
+        Width: =130
+        X: =(Parent.Width-310)/2+16
+        Y: =(Parent.Height-180)/2+104
+
+    LblFDelYesFUsr As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(247, 181, 0, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Remove(Usuarios,gItemEdit);Set(gConfirmDel,false);Navigate(ScrUsuarios,ScreenTransition.None)
+        Size: =12
+        Text: ="Eliminar"
+        Visible: =gConfirmDel
+        Width: =130
+        X: =(Parent.Width-310)/2+16
+        Y: =(Parent.Height-180)/2+104
+
+    RctFDelNoFUsr As rectangle.ManualInput:
+        Fill: =RGBA(229, 231, 235, 1)
+        Height: =40
+        OnSelect: =Set(gConfirmDel,false)
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Visible: =gConfirmDel
+        Width: =130
+        X: =(Parent.Width-310)/2+164
+        Y: =(Parent.Height-180)/2+104
+
+    LblFDelNoFUsr As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(26, 39, 66, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gConfirmDel,false)
+        Size: =12
+        Text: ="Cancelar"
+        Visible: =gConfirmDel
+        Width: =130
+        X: =(Parent.Width-310)/2+164
+        Y: =(Parent.Height-180)/2+104
+

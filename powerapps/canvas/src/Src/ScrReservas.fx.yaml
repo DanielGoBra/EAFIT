@@ -1,0 +1,196 @@
+ScrReservas As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+
+    RctHdrRes As rectangle.ManualInput:
+        X: =0
+        Y: =0
+        Width: =Parent.Width
+        Height: =64
+        Fill: =RGBA(26, 92, 168, 1)
+        BorderThickness: =0
+
+    BtnBackRes As button.Button:
+        X: =12
+        Y: =14
+        Width: =36
+        Height: =36
+        Text: ="<"
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(255, 255, 255, 0.15)
+        HoverFill: =RGBA(255, 255, 255, 0.25)
+        PressedFill: =RGBA(255, 255, 255, 0.35)
+        BorderColor: =RGBA(255, 255, 255, 0.3)
+        HoverBorderColor: =RGBA(255, 255, 255, 0.5)
+        PressedBorderColor: =RGBA(255, 255, 255, 0.5)
+        BorderThickness: =1
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        FontWeight: =FontWeight.Bold
+        Size: =16
+        OnSelect: =Navigate(Screen1, ScreenTransition.Fade)
+
+    LblHdrResSub As label.Label:
+        X: =60
+        Y: =8
+        Width: =500
+        Height: =20
+        Text: ="Escuela de Idiomas · EAFIT"
+        Color: =RGBA(255, 255, 255, 0.7)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Semibold
+
+    LblHdrResTitle As label.Label:
+        X: =60
+        Y: =26
+        Width: =600
+        Height: =30
+        Text: ="Reservas de Sala"
+        Color: =RGBA(255, 255, 255, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =17
+        FontWeight: =FontWeight.Bold
+
+    RctSubRes As rectangle.ManualInput:
+        X: =0
+        Y: =64
+        Width: =Parent.Width
+        Height: =44
+        Fill: =RGBA(15, 61, 115, 1)
+        BorderThickness: =0
+
+    LblResTot As label.Label:
+        X: =20
+        Y: =64
+        Width: =200
+        Height: =44
+        Text: =CountRows(gColReservas) & " reservas"
+        Color: =RGBA(255, 255, 255, 0.9)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        FontWeight: =FontWeight.Semibold
+
+    LblResActivas As label.Label:
+        X: =230
+        Y: =64
+        Width: =240
+        Height: =44
+        Text: =CountIf(gColReservas, estado="Activa") & " activas"
+        Color: =RGBA(247, 181, 0, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =12
+        FontWeight: =FontWeight.Semibold
+
+    TxtBuscarRes As textInput.TextInput:
+        X: =16
+        Y: =120
+        Width: =900
+        Height: =44
+        HintText: ="Buscar por sala o docente..."
+        Default: =""
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(255, 255, 255, 1)
+        BorderColor: =RGBA(226, 232, 240, 1)
+        HoverBorderColor: =RGBA(46, 123, 196, 0.5)
+        FocusedBorderColor: =RGBA(46, 123, 196, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        Size: =13
+        PaddingLeft: =12
+
+    RctResColHeader As rectangle.ManualInput:
+        X: =16
+        Y: =176
+        Width: =Parent.Width - 32
+        Height: =40
+        Fill: =RGBA(235, 243, 255, 1)
+        BorderThickness: =0
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+
+    LblResColSala As label.Label:
+        X: =28
+        Y: =176
+        Width: =320
+        Height: =40
+        Text: ="Sala"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    LblResColDoc As label.Label:
+        X: =360
+        Y: =176
+        Width: =280
+        Height: =40
+        Text: ="Docente"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    LblResColFecha As label.Label:
+        X: =650
+        Y: =176
+        Width: =180
+        Height: =40
+        Text: ="Fecha"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    LblResColBloque As label.Label:
+        X: =840
+        Y: =176
+        Width: =240
+        Height: =40
+        Text: ="Bloque Horario"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    LblResColEst As label.Label:
+        X: =1090
+        Y: =176
+        Width: =160
+        Height: =40
+        Text: ="Estado"
+        Color: =RGBA(15, 61, 115, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =11
+        FontWeight: =FontWeight.Bold
+
+    RctResInfo As rectangle.ManualInput:
+        X: =16
+        Y: =228
+        Width: =Parent.Width - 32
+        Height: =480
+        Fill: =RGBA(255, 255, 255, 1)
+        BorderColor: =RGBA(226, 232, 240, 1)
+        BorderThickness: =1
+        RadiusTopLeft: =0
+        RadiusTopRight: =0
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+
+    LblResGalleryHint As label.Label:
+        X: =16
+        Y: =228
+        Width: =Parent.Width - 32
+        Height: =480
+        Text: ="Conecta una Galeria de Power Apps con Items: Search(gColReservas, TxtBuscarRes.Text, sala, docente)" & Char(10) & Char(10) & "Reservas activas: " & CountIf(gColReservas, estado="Activa") & Char(10) & "Canceladas: " & CountIf(gColReservas, estado="Cancelada") & Char(10) & Char(10) & "Salas disponibles:" & Char(10) & "  Sala A - Piso 2" & Char(10) & "  Sala B - Piso 3" & Char(10) & "  Sala C - Piso 1" & Char(10) & "  Laboratorio de Idiomas"
+        Color: =RGBA(107, 112, 128, 1)
+        Fill: =RGBA(0, 0, 0, 0)
+        Size: =13
+        Wrap: =true
+        PaddingLeft: =24
+        PaddingTop: =24
+        VerticalAlign: =VerticalAlign.Top

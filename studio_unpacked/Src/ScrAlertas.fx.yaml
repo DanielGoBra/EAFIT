@@ -1,0 +1,238 @@
+ScrAlertas As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+    OnVisible: |-
+        =If(gRol="Admin" || gRol="SuperAdmin",Refresh(Prestamos),Notify("No tienes permisos para ver alertas.",NotificationType.Error))
+
+    RctHdrAlt As rectangle.ManualInput:
+        Fill: =RGBA(15, 61, 115, 1)
+        Height: =72
+        Width: =Parent.Width
+
+    RctBackAlt As rectangle.ManualInput:
+        Fill: =RGBA(46, 123, 196, 1)
+        Height: =40
+        OnSelect: =Navigate(Screen1,ScreenTransition.None)
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =96
+        X: =20
+        Y: =20
+
+    LblBackAlt As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Navigate(Screen1,ScreenTransition.None)
+        Size: =13
+        Text: ="← Volver"
+        Width: =96
+        X: =20
+        Y: =20
+
+    LblTitleAlt As label.Label:
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =72
+        Size: =17
+        Text: ="Alertas de pendientes"
+        Width: =Parent.Width - 136
+        X: =128
+
+    RctAccentAlt As rectangle.ManualInput:
+        Fill: =RGBA(247, 181, 0, 1)
+        Height: =3
+        Width: =Parent.Width
+        Y: =72
+
+    RctCardVencidoAlt As rectangle.ManualInput:
+        BorderColor: =RGBA(204, 150, 0, 1)
+        BorderThickness: =2
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =88
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 3
+        X: =20
+        Y: =88
+
+    LblVencidoNumAlt As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(204, 150, 0, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        Size: =28
+        Text: =CountIf(Prestamos,(Estado="Vencido") || (Estado<>"Devuelto" && !IsBlank(FechaDevolucionEsperada) && DateTimeValue(FechaDevolucionEsperada)<Now()))
+        Width: =(Parent.Width - 56) / 3
+        X: =20
+        Y: =100
+
+    LblVencidoTxtAlt As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(107, 112, 128, 1)
+        Height: =22
+        Size: =11
+        Text: ="Vencidos"
+        Width: =(Parent.Width - 56) / 3
+        X: =20
+        Y: =136
+
+    RctCardHoyAlt As rectangle.ManualInput:
+        BorderColor: =RGBA(247, 181, 0, 1)
+        BorderThickness: =2
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =88
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 3
+        X: =20 + (Parent.Width - 56) / 3 + 8
+        Y: =88
+
+    LblHoyNumAlt As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(247, 181, 0, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        Size: =28
+        Text: =CountIf(Prestamos,Estado<>"Devuelto" && !IsBlank(FechaDevolucionEsperada) && DateDiff(Now(),DateTimeValue(FechaDevolucionEsperada),TimeUnit.Hours)<=2 && DateDiff(Now(),DateTimeValue(FechaDevolucionEsperada),TimeUnit.Minutes)>=0)
+        Width: =(Parent.Width - 56) / 3
+        X: =20 + (Parent.Width - 56) / 3 + 8
+        Y: =100
+
+    LblHoyTxtAlt As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(107, 112, 128, 1)
+        Height: =22
+        Size: =11
+        Text: ="Por vencer"
+        Width: =(Parent.Width - 56) / 3
+        X: =20 + (Parent.Width - 56) / 3 + 8
+        Y: =136
+
+    RctCardTiempoAlt As rectangle.ManualInput:
+        BorderColor: =RGBA(26, 92, 168, 1)
+        BorderThickness: =2
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =88
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =(Parent.Width - 56) / 3
+        X: =20 + 2 * ((Parent.Width - 56) / 3 + 8)
+        Y: =88
+
+    LblTiempoNumAlt As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(26, 92, 168, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =34
+        Size: =28
+        Text: =CountIf(Prestamos,Estado<>"Devuelto" && (IsBlank(FechaDevolucionEsperada) || DateTimeValue(FechaDevolucionEsperada)>Now()))
+        Width: =(Parent.Width - 56) / 3
+        X: =20 + 2 * ((Parent.Width - 56) / 3 + 8)
+        Y: =100
+
+    LblTiempoTxtAlt As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(107, 112, 128, 1)
+        Height: =22
+        Size: =11
+        Text: ="En tiempo"
+        Width: =(Parent.Width - 56) / 3
+        X: =20 + 2 * ((Parent.Width - 56) / 3 + 8)
+        Y: =136
+
+    DataTableAlt As dataTable.datatable:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.Solid
+        Color: =RGBA(50, 49, 48, 1)
+        DisabledColor: =RGBA(161, 159, 157, 1)
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Normal
+        HeadingColor: =RGBA(255, 255, 255, 1)
+        HeadingFill: =RGBA(15, 61, 115, 1)
+        HeadingFont: =Font.'Segoe UI'
+        HeadingFontWeight: =FontWeight.Normal
+        HeadingSize: =13
+        Height: =Parent.Height - 196 - 20
+        HoverColor: =RGBA(15, 61, 115, 1)
+        HoverFill: =RGBA(220, 232, 248, 1)
+        InputFill: =RGBA(245, 245, 245, 1)
+        InvertedColor: =RGBA(255, 255, 255, 1)
+        Items: =SortByColumns(AddColumns(Filter(Prestamos,Estado<>"Devuelto"),EstadoVisual,If((Estado="Vencido") || (!IsBlank(FechaDevolucionEsperada) && DateTimeValue(FechaDevolucionEsperada)<Now()),"Vencido",Coalesce(Estado,"Activo"))),"FechaDevolucionEsperada",SortOrder.Ascending)
+        LinkColor: =RGBA(0, 120, 212, 1)
+        PrimaryColor1: =RGBA(26, 92, 168, 1)
+        PrimaryColor2: =RGBA(46, 123, 196, 1)
+        PrimaryColor3: =RGBA(15, 61, 115, 1)
+        SelectedColor: =RGBA(15, 61, 115, 1)
+        SelectedFill: =RGBA(220, 232, 248, 1)
+        Size: =13
+        Width: =Parent.Width
+        X: =0
+        Y: =196
+        ZIndex: =1
+
+        DataTableAlt_Material_Columna1 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Material"
+            FieldName: ="MaterialNombre"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =1
+            Text: =ThisItem.MaterialNombre
+            Width: =220
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableAlt_Docente_Columna2 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Docente"
+            FieldName: ="DocenteNombre"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =2
+            Text: =ThisItem.DocenteNombre
+            Width: =220
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableAlt_Esperada_Columna3 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Devolucion esperada"
+            FieldName: ="FechaDevolucionEsperada"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =3
+            Text: =ThisItem.FechaDevolucionEsperada
+            Width: =210
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableAlt_Estado_Columna4 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Estado"
+            FieldName: ="EstadoVisual"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =4
+            Text: =ThisItem.EstadoVisual
+            Width: =120
+            X: =0
+            Y: =0
+            ZIndex: =0
+

@@ -1,0 +1,690 @@
+ScrItemFormReserva As screen:
+    Fill: =RGBA(238, 244, 252, 1)
+    OnVisible: |-
+        =Set(gUserEmailNorm,Coalesce(gUserEmailNorm,Lower(Trim(User().Email))));
+        ClearCollect(colUsuariosBootstrap,{Email:"dfgomezb@eafit.edu.co",Nombre:"Daniel Felipe Gómez Bravo",Rol:"SuperAdmin",Activo:"TRUE"},{Email:"cnaranj8@eafit.edu.co",Nombre:"Carlos Andrés Naranjo",Rol:"Docente",Activo:"TRUE"},{Email:"amvelasqa1@eafit.edu.co",Nombre:"Angela Maria Velasquez Acosta",Rol:"Docente",Activo:"TRUE"});
+        Set(gUserNombreApp,Coalesce(LookUp(colUsuariosBootstrap,Lower(Trim(Coalesce(Email,"")))=gUserEmailNorm && (IsBlank(Activo) || Activo="TRUE" || Activo="Activo"),Nombre),User().FullName));
+        IfError(Refresh(Reservas),false);
+        IfError(Refresh(Recursos),false);
+        IfError(Refresh(Cocina),false);
+        Clear(colMateriales);
+        IfError(Collect(colMateriales,AddColumns(Recursos,"MaterialId",Coalesce(Juegos,""),"MaterialNombre",Coalesce(Juegos,""),"MaterialTipo","Recurso","CantidadTotal",Value(Coalesce(Unidades,0)),"CantidadPrestadaCalc",Value(Coalesce(CantidadPrestada,0)),"CantidadDanadaCalc",Value(Coalesce(CantidadDanada,0)),"EstadoNormalizado",If(Lower(Coalesce(Estado,""))="dañado","Dañado",If(Value(Coalesce(Unidades,0))-Value(Coalesce(CantidadPrestada,0))-Value(Coalesce(CantidadDanada,0))<=0,"Prestado",Coalesce(Estado,"Disponible"))),"CantidadDisponible",Max(Value(Coalesce(Unidades,0))-Value(Coalesce(CantidadPrestada,0))-Value(Coalesce(CantidadDanada,0)),0),"ObservacionEstadoCalc",Coalesce(ObservacionEstado,Observaciones,""))),false);
+        IfError(Collect(colMateriales,AddColumns(Cocina,"MaterialId",Coalesce(Elemento,""),"MaterialNombre",Coalesce(Elemento,""),"MaterialTipo","Cocina","CantidadTotal",Value(Coalesce(Existencia,Und,0)),"CantidadPrestadaCalc",Value(Coalesce(CantidadPrestada,0)),"CantidadDanadaCalc",Value(Coalesce(CantidadDanada,0)),"EstadoNormalizado",If(Lower(Coalesce(Estado,""))="dañado","Dañado",If(Value(Coalesce(Existencia,Und,0))-Value(Coalesce(CantidadPrestada,0))-Value(Coalesce(CantidadDanada,0))<=0,"Prestado",Coalesce(Estado,"Disponible"))),"CantidadDisponible",Max(Value(Coalesce(Existencia,Und,0))-Value(Coalesce(CantidadPrestada,0))-Value(Coalesce(CantidadDanada,0)),0),"ObservacionEstadoCalc",Coalesce(ObservacionEstado,Observaciones2,Observaciones,""))),false);
+        Set(gEstadoReserva,If(IsBlank(gItemEdit),"Activa",Coalesce(gItemEdit.Estado,"Activa")));
+        Set(gBloqueReserva,If(IsBlank(gItemEdit),"LV_0600_0800",Coalesce(gItemEdit.Bloque,"LV_0600_0800")));
+        Set(gMaterialReservaId,If(!IsBlank(gItemEdit),gItemEdit.MaterialId,!IsBlank(gReservaPrefillNombre),Coalesce(LookUp(colMateriales,MaterialNombre=gReservaPrefillNombre && (IsBlank(gReservaPrefillTipo) || MaterialTipo=gReservaPrefillTipo),MaterialId),Blank()),Blank()));
+        Set(gFiltroMaterialReserva,If(!IsBlank(gItemEdit),If(Coalesce(gItemEdit.MaterialTipo,"")="Cocina","Cocina","Recurso"),!IsBlank(gReservaPrefillTipo),gReservaPrefillTipo,"Todos"));
+        Set(gReservaPrefillNombre,Blank());
+        Set(gReservaPrefillTipo,Blank())
+
+    RctHdrFRsv As rectangle.ManualInput:
+        Fill: =RGBA(15, 61, 115, 1)
+        Height: =72
+        Width: =Parent.Width
+
+    RctBackFRsv As rectangle.ManualInput:
+        Fill: =RGBA(46, 123, 196, 1)
+        Height: =40
+        OnSelect: =Set(gReservaFechaPrefill,Blank());Set(gItemEdit,Blank());Navigate(ScrReservas,ScreenTransition.None)
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =96
+        X: =20
+        Y: =20
+
+    LblBackFRsv As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gReservaFechaPrefill,Blank());Set(gItemEdit,Blank());Navigate(ScrReservas,ScreenTransition.None)
+        Size: =13
+        Text: ="← Volver"
+        Width: =96
+        X: =20
+        Y: =20
+
+    LblTitleFRsv As label.Label:
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Bold
+        Height: =72
+        Size: =16
+        Text: =If(IsBlank(gItemEdit),"Nueva reserva","Detalle de reserva")
+        Width: =Parent.Width - 136
+        X: =128
+
+    RctAccentFRsv As rectangle.ManualInput:
+        Fill: =RGBA(247, 181, 0, 1)
+        Height: =3
+        Width: =Parent.Width
+        Y: =72
+
+    LblDocenteFRsv As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        Size: =12
+        Text: ="Docente"
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =88
+
+    TxtFRsvDocente As text.TextInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        Default: =If(IsBlank(gItemEdit),Coalesce(gUserNombreApp,User().FullName),gItemEdit.DocenteNombre)
+        DisplayMode: =DisplayMode.View
+        Height: =44
+        PaddingLeft: =10
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =110
+
+    LblMaterialFRsv As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        Size: =12
+        Text: ="Recurso por reservar"
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =164
+
+    RctMatSelectedFRsv As rectangle.ManualInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =48
+        RadiusBottomLeft: =10
+        RadiusBottomRight: =10
+        RadiusTopLeft: =10
+        RadiusTopRight: =10
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =186
+
+    LblMatSelectedNameFRsv As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =22
+        Size: =12
+        Text: =If(IsBlank(gMaterialReservaId),"Sin recurso seleccionado",Coalesce(LookUp(colMateriales,MaterialId=gMaterialReservaId,MaterialNombre),"Sin recurso seleccionado"))
+        Width: =Parent.Width - 64
+        X: =32
+        Y: =192
+
+    LblMatSelectedMetaFRsv As label.Label:
+        Color: =RGBA(107, 112, 128, 1)
+        Height: =18
+        Size: =10
+        Text: =If(IsBlank(gMaterialReservaId),"Elige desde la lista de juegos, insumos o cocina.",Coalesce(LookUp(colMateriales,MaterialId=gMaterialReservaId,MaterialTipo),"") & " · Disponibles: " & Text(Coalesce(LookUp(colMateriales,MaterialId=gMaterialReservaId,CantidadDisponible),0)))
+        Width: =Parent.Width - 64
+        X: =32
+        Y: =212
+
+    LblHelpMatFRsv As label.Label:
+        Color: =RGBA(107, 112, 128, 1)
+        Height: =18
+        Size: =10
+        Text: ="Filtra por tipo y selecciona desde la lista. Los dañados o sin cupo no se pueden reservar."
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =242
+
+    RctFltMatTodosFRsv As rectangle.ManualInput:
+        BorderThickness: =0
+        Fill: =If(gFiltroMaterialReserva="Todos",RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 0.92))
+        Height: =34
+        OnSelect: =Set(gFiltroMaterialReserva,"Todos")
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 64) / 4
+        X: =20
+        Y: =264
+
+    LblFltMatTodosFRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gFiltroMaterialReserva="Todos",RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =Set(gFiltroMaterialReserva,"Todos")
+        Size: =10
+        Text: ="Todos"
+        Width: =(Parent.Width - 64) / 4
+        X: =20
+        Y: =264
+
+    RctFltMatRecursoFRsv As rectangle.ManualInput:
+        BorderThickness: =0
+        Fill: =If(gFiltroMaterialReserva="Recurso",RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 0.92))
+        Height: =34
+        OnSelect: =Set(gFiltroMaterialReserva,"Recurso")
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 1 * ((Parent.Width - 64) / 4 + 8)
+        Y: =264
+
+    LblFltMatRecursoFRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gFiltroMaterialReserva="Recurso",RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =Set(gFiltroMaterialReserva,"Recurso")
+        Size: =9
+        Text: ="Juegos"
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 1 * ((Parent.Width - 64) / 4 + 8)
+        Y: =264
+
+    RctFltMatCocinaFRsv As rectangle.ManualInput:
+        BorderThickness: =0
+        Fill: =If(gFiltroMaterialReserva="Cocina",RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 0.92))
+        Height: =34
+        OnSelect: =Set(gFiltroMaterialReserva,"Cocina")
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 2 * ((Parent.Width - 64) / 4 + 8)
+        Y: =264
+
+    LblFltMatCocinaFRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gFiltroMaterialReserva="Cocina",RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =Set(gFiltroMaterialReserva,"Cocina")
+        Size: =9
+        Text: ="Cocina"
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 2 * ((Parent.Width - 64) / 4 + 8)
+        Y: =264
+
+    RctFltMatDispFRsv As rectangle.ManualInput:
+        BorderThickness: =0
+        Fill: =If(gFiltroMaterialReserva="Disponible",RGBA(26, 92, 168, 1),RGBA(255, 255, 255, 0.92))
+        Height: =34
+        OnSelect: =Set(gFiltroMaterialReserva,"Disponible")
+        RadiusBottomLeft: =12
+        RadiusBottomRight: =12
+        RadiusTopLeft: =12
+        RadiusTopRight: =12
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 3 * ((Parent.Width - 64) / 4 + 8)
+        Y: =264
+
+    LblFltMatDispFRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gFiltroMaterialReserva="Disponible",RGBA(255, 255, 255, 1),RGBA(26, 92, 168, 1))
+        FontWeight: =FontWeight.Semibold
+        Height: =34
+        OnSelect: =Set(gFiltroMaterialReserva,"Disponible")
+        Size: =9
+        Text: ="Disponibles"
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 3 * ((Parent.Width - 64) / 4 + 8)
+        Y: =264
+
+    RctUseMatFRsv As rectangle.ManualInput:
+        BorderColor: =RGBA(26, 92, 168, 1)
+        BorderThickness: =1
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =30
+        OnSelect: =If(IsBlank(DataTableMatRsv.Selected.MaterialId),Notify("Selecciona un material de la lista.",NotificationType.Error),DataTableMatRsv.Selected.EstadoNormalizado="Dañado",Notify("Ese material está dañado y no puede reservarse.",NotificationType.Error),Value(DataTableMatRsv.Selected.CantidadDisponible)<=0,Notify("Ese material no tiene disponibilidad para prestar.",NotificationType.Error),Set(gMaterialReservaId,DataTableMatRsv.Selected.MaterialId);Notify("Material seleccionado correctamente.",NotificationType.Success))
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =422
+
+    LblUseMatFRsv As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(26, 92, 168, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =30
+        OnSelect: =If(IsBlank(DataTableMatRsv.Selected.MaterialId),Notify("Selecciona un material de la lista.",NotificationType.Error),DataTableMatRsv.Selected.EstadoNormalizado="Dañado",Notify("Ese material está dañado y no puede reservarse.",NotificationType.Error),Value(DataTableMatRsv.Selected.CantidadDisponible)<=0,Notify("Ese material no tiene disponibilidad para prestar.",NotificationType.Error),Set(gMaterialReservaId,DataTableMatRsv.Selected.MaterialId);Notify("Material seleccionado correctamente.",NotificationType.Success))
+        Size: =11
+        Text: ="Seleccionar recurso"
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =422
+
+    LblFechaFRsv As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        Size: =12
+        Text: ="Fecha de servicio (AAAA-MM-DD)"
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =462
+
+    TxtFRsvFecha As text.TextInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        Default: =If(IsBlank(gItemEdit),Coalesce(gReservaFechaPrefill,Text(Today(),"yyyy-mm-dd")),gItemEdit.FechaServicio)
+        Height: =44
+        PaddingLeft: =10
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =484
+
+    LblBloqueTitFRsv As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        Size: =12
+        Text: ="Bloque horario"
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =538
+
+    RctBlk1FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="LV_0600_0800",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"LV_0600_0800")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 72) / 5
+        X: =20
+        Y: =562
+
+    LblBlk1FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="LV_0600_0800",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"LV_0600_0800")
+        Size: =9
+        Text: ="L-V 06-08"
+        Width: =(Parent.Width - 72) / 5
+        X: =20
+        Y: =562
+
+    RctBlk2FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="LV_0800_1000",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"LV_0800_1000")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 72) / 5
+        X: =20 + 1 * ((Parent.Width - 72) / 5 + 8)
+        Y: =562
+
+    LblBlk2FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="LV_0800_1000",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"LV_0800_1000")
+        Size: =9
+        Text: ="L-V 08-10"
+        Width: =(Parent.Width - 72) / 5
+        X: =20 + 1 * ((Parent.Width - 72) / 5 + 8)
+        Y: =562
+
+    RctBlk3FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="LV_1200_1400",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"LV_1200_1400")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 72) / 5
+        X: =20 + 2 * ((Parent.Width - 72) / 5 + 8)
+        Y: =562
+
+    LblBlk3FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="LV_1200_1400",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"LV_1200_1400")
+        Size: =9
+        Text: ="L-V 12-14"
+        Width: =(Parent.Width - 72) / 5
+        X: =20 + 2 * ((Parent.Width - 72) / 5 + 8)
+        Y: =562
+
+    RctBlk4FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="LV_1600_1830",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"LV_1600_1830")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 72) / 5
+        X: =20 + 3 * ((Parent.Width - 72) / 5 + 8)
+        Y: =562
+
+    LblBlk4FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="LV_1600_1830",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"LV_1600_1830")
+        Size: =8
+        Text: |-
+            ="L-V 16-18:30"
+        Width: =(Parent.Width - 72) / 5
+        X: =20 + 3 * ((Parent.Width - 72) / 5 + 8)
+        Y: =562
+
+    RctBlk5FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="LV_1830_2100",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"LV_1830_2100")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 72) / 5
+        X: =20 + 4 * ((Parent.Width - 72) / 5 + 8)
+        Y: =562
+
+    LblBlk5FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="LV_1830_2100",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"LV_1830_2100")
+        Size: =8
+        Text: |-
+            ="L-V 18:30-21"
+        Width: =(Parent.Width - 72) / 5
+        X: =20 + 4 * ((Parent.Width - 72) / 5 + 8)
+        Y: =562
+
+    RctBlk6FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="SAB_0730_0930",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"SAB_0730_0930")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 64) / 4
+        X: =20
+        Y: =610
+
+    LblBlk6FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="SAB_0730_0930",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"SAB_0730_0930")
+        Size: =9
+        Text: |-
+            ="Sab 7:30-9:30"
+        Width: =(Parent.Width - 64) / 4
+        X: =20
+        Y: =610
+
+    RctBlk7FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="SAB_0930_1130",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"SAB_0930_1130")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 1 * ((Parent.Width - 64) / 4 + 8)
+        Y: =610
+
+    LblBlk7FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="SAB_0930_1130",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"SAB_0930_1130")
+        Size: =9
+        Text: |-
+            ="Sab 9:30-11:30"
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 1 * ((Parent.Width - 64) / 4 + 8)
+        Y: =610
+
+    RctBlk8FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="SAB_1130_1330",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"SAB_1130_1330")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 2 * ((Parent.Width - 64) / 4 + 8)
+        Y: =610
+
+    LblBlk8FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="SAB_1130_1330",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"SAB_1130_1330")
+        Size: =8
+        Text: |-
+            ="Sab 11:30-13:30"
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 2 * ((Parent.Width - 64) / 4 + 8)
+        Y: =610
+
+    RctBlk9FRsv As rectangle.ManualInput:
+        Fill: =If(gBloqueReserva="SAB_1330_1530",RGBA(26, 92, 168, 1),RGBA(229, 231, 235, 1))
+        Height: =40
+        OnSelect: =Set(gBloqueReserva,"SAB_1330_1530")
+        RadiusBottomLeft: =6
+        RadiusBottomRight: =6
+        RadiusTopLeft: =6
+        RadiusTopRight: =6
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 3 * ((Parent.Width - 64) / 4 + 8)
+        Y: =610
+
+    LblBlk9FRsv As label.Label:
+        Align: =Align.Center
+        Color: =If(gBloqueReserva="SAB_1330_1530",RGBA(255, 255, 255, 1),RGBA(26, 39, 66, 1))
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Set(gBloqueReserva,"SAB_1330_1530")
+        Size: =8
+        Text: |-
+            ="Sab 13:30-15:30"
+        Width: =(Parent.Width - 64) / 4
+        X: =20 + 3 * ((Parent.Width - 64) / 4 + 8)
+        Y: =610
+
+    LblNotasFRsv As label.Label:
+        Color: =RGBA(15, 61, 115, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =20
+        Size: =12
+        Text: ="Notas"
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =664
+
+    TxtFRsvNotas As text.TextInput:
+        BorderColor: =RGBA(203, 213, 225, 1)
+        Default: =If(IsBlank(gItemEdit),"",Coalesce(gItemEdit.Notas,""))
+        Height: =56
+        HintText: ="Observaciones de la reserva..."
+        Mode: =TextMode.MultiLine
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =688
+
+    RctWarnMaterialFRsv As rectangle.ManualInput:
+        BorderColor: =RGBA(247, 181, 0, 1)
+        BorderThickness: =1
+        Fill: =RGBA(255, 248, 220, 1)
+        Height: =44
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Visible: =!IsBlank(gMaterialReservaId) && (LookUp(colMateriales,MaterialId=gMaterialReservaId,EstadoNormalizado)="Dañado" || Value(Coalesce(LookUp(colMateriales,MaterialId=gMaterialReservaId,CantidadDisponible),0))<=0 || CountRows(Filter(Reservas,MaterialId=gMaterialReservaId && FechaServicio=Trim(TxtFRsvFecha.Text) && Bloque=gBloqueReserva && Estado="Activa" && NumeroReserva<>Coalesce(gItemEdit.NumeroReserva,""))) >= Value(Coalesce(LookUp(colMateriales,MaterialId=gMaterialReservaId,CantidadDisponible),0)))
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =754
+
+    LblWarnMaterialFRsv As label.Label:
+        Color: =RGBA(204, 150, 0, 1)
+        FontWeight: =FontWeight.Semibold
+        Height: =30
+        Size: =11
+        Text: =If(LookUp(colMateriales,MaterialId=gMaterialReservaId,EstadoNormalizado)="Dañado","El material esta marcado como danado y no puede reservarse.",If(Value(Coalesce(LookUp(colMateriales,MaterialId=gMaterialReservaId,CantidadDisponible),0))<=0,"El material no tiene unidades disponibles para prestar en este momento.","Ese bloque ya agotó el cupo disponible de este material."))
+        Visible: =RctWarnMaterialFRsv.Visible
+        Width: =Parent.Width - 64
+        X: =32
+        Y: =760
+
+    RctSaveFRsv As rectangle.ManualInput:
+        Fill: =RGBA(26, 92, 168, 1)
+        Height: =40
+        OnSelect: |-
+            =With({_material:LookUp(colMateriales,MaterialId=gMaterialReservaId),_bloque:LookUp(colBloques,Codigo=gBloqueReserva),_fecha:IfError(DateValue(Trim(TxtFRsvFecha.Text)),Blank()),_fechaTxt:Trim(TxtFRsvFecha.Text),_reservasActivasBloque:CountRows(Filter(Reservas,MaterialId=gMaterialReservaId && FechaServicio=Trim(TxtFRsvFecha.Text) && Bloque=gBloqueReserva && Estado="Activa" && NumeroReserva<>Coalesce(gItemEdit.NumeroReserva,""))),_disponibleMaterial:Value(Coalesce(LookUp(colMateriales,MaterialId=gMaterialReservaId,CantidadDisponible),0)),_esHistorica:!IsBlank(gItemEdit) && Coalesce(gItemEdit.Estado,"Activa")<>"Activa",_docenteNombreActual:Coalesce(gUserNombreApp,User().FullName)},If(_esHistorica,Notify("Solo las reservas activas pueden modificarse.",NotificationType.Error),IsBlank(_material),Notify("Selecciona un material valido de inventario.",NotificationType.Error),IsBlank(_fecha),Notify("La fecha debe estar en formato AAAA-MM-DD.",NotificationType.Error),Weekday(_fecha,StartOfWeek.Monday)=7,Notify("Los domingos no tienen disponibilidad.",NotificationType.Error),_bloque.TipoDia="Sabado" && Weekday(_fecha,StartOfWeek.Monday)<>6,Notify("Ese bloque solo aplica para sabado.",NotificationType.Error),_bloque.TipoDia="Semana" && Weekday(_fecha,StartOfWeek.Monday)>5,Notify("Ese bloque solo aplica de lunes a viernes.",NotificationType.Error),_material.EstadoNormalizado="Dañado",Notify("El material esta danado y no puede reservarse.",NotificationType.Error),_disponibleMaterial<=0,Notify("El material no tiene unidades disponibles para prestar en este momento.",NotificationType.Error),_reservasActivasBloque>=_disponibleMaterial,Notify("Ese bloque ya agotó el cupo disponible de este material.",NotificationType.Error),IfError(Patch(Reservas,If(IsBlank(gItemEdit),Defaults(Reservas),gItemEdit),{NumeroReserva:If(IsBlank(gItemEdit),"RES-" & Text(Now(),"yyyymmdd-hhmmss") & "-" & Text(RandBetween(1000,9999)),gItemEdit.NumeroReserva),DocenteNombre:If(IsBlank(gItemEdit),_docenteNombreActual,gItemEdit.DocenteNombre),DocenteEmail:If(IsBlank(gItemEdit),gUserEmailNorm,gItemEdit.DocenteEmail),MaterialNombre:_material.MaterialNombre,MaterialTipo:_material.MaterialTipo,MaterialId:_material.MaterialId,FechaServicio:_fechaTxt,Bloque:gBloqueReserva,FechaInicio:Text(DateTimeValue(_fechaTxt & " " & _bloque.HoraInicio),"yyyy-mm-dd hh:mm"),FechaFin:Text(DateTimeValue(_fechaTxt & " " & _bloque.HoraFin),"yyyy-mm-dd hh:mm"),Estado:If(IsBlank(gItemEdit),"Activa",Coalesce(gItemEdit.Estado,"Activa")),FechaCreacion:If(IsBlank(gItemEdit),Text(Now(),"yyyy-mm-dd hh:mm"),Coalesce(gItemEdit.FechaCreacion,Text(Now(),"yyyy-mm-dd hh:mm"))),FechaCancelacion:Coalesce(gItemEdit.FechaCancelacion,Blank()),CanceladaPor:Coalesce(gItemEdit.CanceladaPor,Blank()),Notas:TxtFRsvNotas.Text});Refresh(Reservas);Set(gReservaFechaPrefill,Blank());Notify("Reserva confirmada correctamente.",NotificationType.Success);Set(gItemEdit,Blank());Navigate(ScrReservas,ScreenTransition.None),Notify("No se pudo guardar la reserva. Revisa los datos y la conexion con Excel.",NotificationType.Error))))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =806
+
+    LblSaveFRsv As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(255, 255, 255, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: =Select(RctSaveFRsv)
+        Size: =15
+        Text: ="Confirmar reserva"
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =806
+
+    RctCancelFRsv As rectangle.ManualInput:
+        BorderColor: =RGBA(247, 181, 0, 1)
+        BorderThickness: =2
+        Fill: =RGBA(255, 255, 255, 1)
+        Height: =40
+        OnSelect: |-
+            =If(!IsBlank(gItemEdit),If(DateAdd(Now(),30,TimeUnit.Minutes)<DateTimeValue(gItemEdit.FechaInicio),Patch(Reservas,gItemEdit,{Estado:"Cancelada",FechaCancelacion:Text(Now(),"yyyy-mm-dd hh:mm"),CanceladaPor:User().Email});Refresh(Reservas);Set(gReservaFechaPrefill,Blank());Notify("Reserva cancelada correctamente.",NotificationType.Success);Set(gItemEdit,Blank());Navigate(ScrReservas,ScreenTransition.None),Notify("Ya no es posible cancelar esta reserva porque faltan menos de 30 minutos.",NotificationType.Error)))
+        RadiusBottomLeft: =8
+        RadiusBottomRight: =8
+        RadiusTopLeft: =8
+        RadiusTopRight: =8
+        Visible: =!IsBlank(gItemEdit) && gItemEdit.Estado="Activa" && (gRol="Admin" || gRol="SuperAdmin" || Lower(Trim(Coalesce(gItemEdit.DocenteEmail,"")))=gUserEmailNorm)
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =854
+
+    LblCancelFRsv As label.Label:
+        Align: =Align.Center
+        Color: =RGBA(247, 181, 0, 1)
+        FontWeight: =FontWeight.Semibold
+        OnSelect: |-
+            =If(!IsBlank(gItemEdit),If(DateAdd(Now(),30,TimeUnit.Minutes)<DateTimeValue(gItemEdit.FechaInicio),Patch(Reservas,gItemEdit,{Estado:"Cancelada",FechaCancelacion:Text(Now(),"yyyy-mm-dd hh:mm"),CanceladaPor:User().Email});Refresh(Reservas);Set(gReservaFechaPrefill,Blank());Notify("Reserva cancelada correctamente.",NotificationType.Success);Set(gItemEdit,Blank());Navigate(ScrReservas,ScreenTransition.None),Notify("Ya no es posible cancelar esta reserva porque faltan menos de 30 minutos.",NotificationType.Error)))
+        Text: ="Cancelar reserva"
+        Visible: =RctCancelFRsv.Visible
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =854
+
+    DataTableMatRsv As dataTable.datatable:
+        BorderColor: =RGBA(0, 0, 0, 0)
+        BorderStyle: =BorderStyle.Solid
+        Color: =RGBA(50, 49, 48, 1)
+        DisabledColor: =RGBA(161, 159, 157, 1)
+        DisplayMode: =DisplayMode.Edit
+        Fill: =RGBA(0, 0, 0, 0)
+        Font: =Font.'Segoe UI'
+        FontWeight: =FontWeight.Normal
+        HeadingColor: =RGBA(255, 255, 255, 1)
+        HeadingFill: =RGBA(15, 61, 115, 1)
+        HeadingFont: =Font.'Segoe UI'
+        HeadingFontWeight: =FontWeight.Normal
+        HeadingSize: =12
+        Height: =108
+        HoverColor: =RGBA(15, 61, 115, 1)
+        HoverFill: =RGBA(220, 232, 248, 1)
+        InputFill: =RGBA(245, 245, 245, 1)
+        InvertedColor: =RGBA(255, 255, 255, 1)
+        Items: =SortByColumns(Filter(colMateriales,gFiltroMaterialReserva="Todos" || (gFiltroMaterialReserva="Recurso" && MaterialTipo="Recurso") || (gFiltroMaterialReserva="Cocina" && MaterialTipo="Cocina") || (gFiltroMaterialReserva="Disponible" && Value(Coalesce(CantidadDisponible,0))>0)),"MaterialNombre",SortOrder.Ascending)
+        LinkColor: =RGBA(0, 120, 212, 1)
+        PrimaryColor1: =RGBA(26, 92, 168, 1)
+        PrimaryColor2: =RGBA(46, 123, 196, 1)
+        PrimaryColor3: =RGBA(15, 61, 115, 1)
+        SelectedColor: =RGBA(15, 61, 115, 1)
+        SelectedFill: =RGBA(220, 232, 248, 1)
+        Size: =11
+        Width: =Parent.Width - 40
+        X: =20
+        Y: =306
+        ZIndex: =1
+
+        DataTableMatRsv_Material_Columna1 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Material"
+            FieldName: ="MaterialNombre"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =1
+            Text: =ThisItem.MaterialNombre
+            Width: =220
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableMatRsv_Tipo_Columna2 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Tipo"
+            FieldName: ="MaterialTipo"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =2
+            Text: =ThisItem.MaterialTipo
+            Width: =90
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableMatRsv_Estado_Columna3 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Estado"
+            FieldName: ="EstadoNormalizado"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =3
+            Text: =ThisItem.EstadoNormalizado
+            Width: =110
+            X: =0
+            Y: =0
+            ZIndex: =0
+
+        DataTableMatRsv_Disponible_Columna4 As dataTableColumn.textualColumn:
+            DisplayMode: =DisplayMode.Edit
+            FieldDisplayName: ="Disp."
+            FieldName: ="CantidadDisponible"
+            FieldVariantName: ="textualColumn"
+            Height: =Parent.Height
+            LayoutHeight: =Parent.Height
+            Order: =4
+            Text: =ThisItem.CantidadDisponible
+            Width: =70
+            X: =0
+            Y: =0
+            ZIndex: =0
+
